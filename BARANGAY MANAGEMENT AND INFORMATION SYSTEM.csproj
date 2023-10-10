@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\squirrel.windows.2.0.1\build\squirrel.windows.props" Condition="Exists('packages\squirrel.windows.2.0.1\build\squirrel.windows.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{87D0C792-5986-4F25-86D3-4F40D97E2F3D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BMIS</RootNamespace>
+    <AssemblyName>BMIS</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Mundas26\Desktop\Install\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>true</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>rsOverlappingReportItems</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LUNGSOD NG MAYNILA.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>43A41BFBF2C32712A1245D7354C2A09A8703978A</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>BARANGAY MANAGEMENT AND INFORMATION SYSTEM_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Guna.UI2, Version=2.0.4.4, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>packages\Guna.UI2.WinForms.2.0.4.4\lib\net472\Guna.UI2.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Check.cs" />
+    <Compile Include="DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dbconstring.cs" />
+    <Compile Include="frmAddChairmanship.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddChairmanship.Designer.cs">
+      <DependentUpon>frmAddChairmanship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddPosition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddPosition.Designer.cs">
+      <DependentUpon>frmAddPosition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBlotter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBlotter.Designer.cs">
+      <DependentUpon>frmBlotter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDocument.Designer.cs">
+      <DependentUpon>frmDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmHousehold.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHousehold.Designer.cs">
+      <DependentUpon>frmHousehold.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmIssue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmIssue.Designer.cs">
+      <DependentUpon>frmIssue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLoading.Designer.cs">
+      <DependentUpon>frmLoading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrintAllReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrintAllReports.Designer.cs">
+      <DependentUpon>frmPrintAllReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSecurity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSecurity.Designer.cs">
+      <DependentUpon>frmSecurity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMaintenance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMaintenance.Designer.cs">
+      <DependentUpon>frmMaintenance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmOfficial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOfficial.Designer.cs">
+      <DependentUpon>frmOfficial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPayment.Designer.cs">
+      <DependentUpon>frmPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPaymentList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPaymentList.Designer.cs">
+      <DependentUpon>frmPaymentList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Documents\frmPrintBusiness.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Documents\frmPrintBusiness.Designer.cs">
+      <DependentUpon>frmPrintBusiness.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Documents\frmPrintClearance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Documents\frmPrintClearance.Designer.cs">
+      <DependentUpon>frmPrintClearance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Documents\frmPrintBuildingPermit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Documents\frmPrintBuildingPermit.Designer.cs">
+      <DependentUpon>frmPrintBuildingPermit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPurok.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPurok.Designer.cs">
+      <DependentUpon>frmPurok.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmResidentInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmResidentInformation.Designer.cs">
+      <DependentUpon>frmResidentInformation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmResidentList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmResidentList.Designer.cs">
+      <DependentUpon>frmResidentList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVaccination.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVaccination.Designer.cs">
+      <DependentUpon>frmVaccination.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmViewhousehold.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmViewhousehold.Designer.cs">
+      <DependentUpon>frmViewhousehold.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainBrgy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainBrgy.Designer.cs">
+      <DependentUpon>MainBrgy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAccount.Designer.cs">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="vars.cs" />
+    <EmbeddedResource Include="Documents\frmPrintBuildingPermit.resx">
+      <DependentUpon>frmPrintBuildingPermit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddChairmanship.resx">
+      <DependentUpon>frmAddChairmanship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddPosition.resx">
+      <DependentUpon>frmAddPosition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLoading.resx">
+      <DependentUpon>frmLoading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrintAllReports.resx">
+      <DependentUpon>frmPrintAllReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSecurity.resx">
+      <DependentUpon>frmSecurity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainBrgy.resx">
+      <DependentUpon>MainBrgy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAccount.resx">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptBuildingPermit.rdlc" />
+    <EmbeddedResource Include="frmBlotter.resx">
+      <DependentUpon>frmBlotter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDocument.resx">
+      <DependentUpon>frmDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHousehold.resx">
+      <DependentUpon>frmHousehold.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmIssue.resx">
+      <DependentUpon>frmIssue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMaintenance.resx">
+      <DependentUpon>frmMaintenance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOfficial.resx">
+      <DependentUpon>frmOfficial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPayment.resx">
+      <DependentUpon>frmPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPaymentList.resx">
+      <DependentUpon>frmPaymentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Documents\frmPrintBusiness.resx">
+      <DependentUpon>frmPrintBusiness.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Documents\frmPrintClearance.resx">
+      <DependentUpon>frmPrintClearance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPurok.resx">
+      <DependentUpon>frmPurok.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmResidentInformation.resx">
+      <DependentUpon>frmResidentInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmResidentList.resx">
+      <DependentUpon>frmResidentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVaccination.resx">
+      <DependentUpon>frmVaccination.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewhousehold.resx">
+      <DependentUpon>frmViewhousehold.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="rptBlotter.rdlc" />
+    <EmbeddedResource Include="rptBusiness.rdlc" />
+    <EmbeddedResource Include="rptClearance.rdlc" />
+    <None Include="DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSet.xss">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin.jpg" />
+    <Content Include="Images\admin.jpg" />
+    <Content Include="Images\b21ol4yj.2bb.jpg" />
+    <Content Include="Images\uavqvq0r.5qd.jpg" />
+    <Content Include="kfc.ico" />
+    <Content Include="LUNGSOD NG MAYNILA.ico" />
+    <Content Include="OfficialPostImages\4190865651.jpg" />
+    <Content Include="OfficialPostImages\8282703101.jpg" />
+    <Content Include="OfficialPostImages\brush.jpg" />
+    <Content Include="OfficialPostImages\DEFAULT.jpg" />
+    <Content Include="OfficialPostImages\LUNGSOD NG MAYNILA.jpg" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.NetCore.DesktopRuntime.5.0.x64">
+      <Visible>False</Visible>
+      <ProductName>.NET Desktop Runtime 5.0.17 %28x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SqlServer.SqlLocalDB.15.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server 2019 Express LocalDB</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SqlServer.SQLSysClrTypes.12.0.x64">
+      <Visible>False</Visible>
+      <ProductName>Microsoft® System CLR Types for SQL Server® 2014 %28x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Visual.C++.14.0.x64">
+      <Visible>False</Visible>
+      <ProductName>Visual C++ "14" Runtime Libraries %28x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".deploy">
+      <Visible>False</Visible>
+      <Description>publish.htm</Description>
+      <Progid>mundas26</Progid>
+      <DefaultIcon>kfc.ico</DefaultIcon>
+    </FileAssociation>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\squirrel.windows.2.0.1\build\squirrel.windows.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\squirrel.windows.2.0.1\build\squirrel.windows.props'))" />
+  </Target>
+</Project>
