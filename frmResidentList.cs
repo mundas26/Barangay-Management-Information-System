@@ -17,7 +17,7 @@ namespace BMIS
         SqlConnection _sqlConnection;
         SqlCommand _sqlCommand;
         SqlDataReader _sqlDataReader;
-        public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
 
         [Obsolete]
         public frmResidentList()

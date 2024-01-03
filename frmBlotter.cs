@@ -18,7 +18,7 @@ namespace BMIS
         SqlDataReader _sqlDataReader;
         frmIssue f;
         public string _id;
-        public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
         public frmBlotter(frmIssue f)
         {
             InitializeComponent();

@@ -12,7 +12,7 @@ namespace BMIS
     {
         public static SqlConnection _sqlConnection;
         public static SqlCommand _sqlCommand;
-        public static string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public static string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
         public static bool checkDuplicate(string sql)
         {
             bool IsUserExisted = false;

@@ -23,7 +23,7 @@ namespace BMIS
         public string _BC;
         public string _Name;
         public string _Purpose;
-        public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
         public frmPrintAllReports()
         {
             InitializeComponent();

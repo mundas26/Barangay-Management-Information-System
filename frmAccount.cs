@@ -14,7 +14,7 @@ namespace BMIS
         public string _id;
         public frmMaintenance f;
         public frmSecurity f1;
-        public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
 
         public frmAccount(frmMaintenance f)
         {

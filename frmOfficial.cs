@@ -20,7 +20,7 @@ namespace BMIS
         SqlDataReader _sqlDataReader;
         frmMaintenance f;
         public string _id;
-        public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
         public frmOfficial(frmMaintenance f)
         {
             InitializeComponent();
@@ -120,7 +120,7 @@ namespace BMIS
         {
             string folder = @".\Images";
             string path = System.IO.Path.Combine(folder);
-            string DefaultImage = Application.StartupPath + @"\formal.png";
+            string DefaultImage = Application.StartupPath + @"\formal.jpg";
             picPhotoPost.Image = Image.FromFile(File.Exists(path)? path: DefaultImage);
 
             txtName.Clear();

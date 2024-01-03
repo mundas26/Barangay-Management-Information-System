@@ -17,11 +17,11 @@ namespace BMIS
         readonly SqlConnection _sqlConnection;
         SqlCommand _sqlCommand;
         SqlDataReader _sqlDataReader;
-        public string _username = "", _password = "", _name = "", _role = "", _pic; 
+        public string _username = "", _password = "", _name = "", _role = "", _pic;
         int counter = 0;
         public string[] imagePaths;
         public bool slideshowRunning = true;
-        public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
 
         [Obsolete]
         public frmSecurity()
@@ -30,7 +30,7 @@ namespace BMIS
             _sqlConnection = new SqlConnection(DbString);
             ImagesSlideShow();
         }
-        
+
         public void ImagesSlideShow()
         {
             string folderPaths = @".\OfficialPostImages";
@@ -43,7 +43,7 @@ namespace BMIS
         private void timer1_Tick(object sender, EventArgs e)
         {
             Image image;
-            if (slideshowRunning==true)
+            if (slideshowRunning == true)
             {
                 counter++;
                 if (counter >= imagePaths.Length)
@@ -78,9 +78,14 @@ namespace BMIS
             try
             {
                 bool Found = false;
+
+                vars.GenerateDatabase();
+
+                string connectionString = "Server=.; Database=bmis;Integrated Security=True;TrustServerCertificate=True";
+                SqlConnection _sqlConnection = new SqlConnection(connectionString);
                 _sqlConnection.Open();
 
-                _sqlCommand = new SqlCommand("Select *from tblOfficial where username=@username and password=@password", _sqlConnection);
+                _sqlCommand = new SqlCommand("SELECT *FROM tblUser WHERE username=@username AND password=@password", _sqlConnection);
                 _sqlCommand.Parameters.AddWithValue("@username", txtUser.Text);
                 _sqlCommand.Parameters.AddWithValue("@password", txtPass.Text);
                 _sqlDataReader = _sqlCommand.ExecuteReader();

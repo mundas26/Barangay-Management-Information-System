@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,12 +12,13 @@ namespace BMIS
 {
     public class vars
     {
+        public static SqlCommand _SqlCommand; 
         public static string Users { get; set; }
 
         public static string _title = "BARANGAY MANAGEMENT AND INFORMATION SYSTEM";
         public static string _user;
-        public static string _defaultName = "mundas26";
-        public static string _defaultUser = "mundas26";
+        public static string _defaultName = "admin";
+        public static string _defaultUser = "admin";
         public static string _defaultPass = "admin123";
         public static string _defaultRole = "ADMINISTRATOR";
 
@@ -64,6 +66,183 @@ namespace BMIS
                 default: return "th";
             }
         }
+        public static void GenerateDatabase()
+        {
+            string initialConnectionString = "Server=.;Database=master;Integrated Security=True;TrustServerCertificate=True";
+            SqlConnection initialConnection = new SqlConnection(initialConnectionString);
+            initialConnection.Open();
 
+            // Check if the 'bmis' database exists
+            string checkDatabaseQuery = "SELECT COUNT(*) FROM sys.databases WHERE name = 'bmis';";
+            SqlCommand checkDatabaseCommand = new SqlCommand(checkDatabaseQuery, initialConnection);
+            int databaseCount = (int)checkDatabaseCommand.ExecuteScalar();
+
+            // If the 'bmis' database does not exist, create it
+            if (databaseCount == 0)
+            {
+                string createDatabaseQuery = "CREATE DATABASE bmis;";
+                _SqlCommand = new SqlCommand(createDatabaseQuery, initialConnection);
+                _SqlCommand.ExecuteNonQuery();
+            }
+
+            string[] additionalTables = { "tblUser", "tblOfficial", "tblResident", "tblChairmanship", "tblPosition", "tblBlotter", "tblPayment", "tblPurok", "tblVaccine", "tblDocument" };
+
+            foreach (var tableName in additionalTables)
+            {
+                string checkTableQuery = $"USE bmis; SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableName}';";
+                SqlCommand checkTableCommand = new SqlCommand(checkTableQuery, initialConnection);
+                int tableCount = (int)checkTableCommand.ExecuteScalar();
+
+                if (tableCount == 0)
+                {
+                    string createTableQuery = GetCreateTableQuery(tableName);
+                    SqlCommand createTableCommand = new SqlCommand(createTableQuery, initialConnection);
+                    createTableCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private static string GetCreateTableQuery(string tableName)
+        {
+            switch (tableName)
+            {
+                case "tblUser":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblUser (
+                        id INT PRIMARY KEY IDENTITY(1,1),
+                        name VARCHAR(50) NOT NULL,
+                        username VARCHAR(50) NOT NULL,
+                        password VARCHAR(50) NOT NULL,
+                        role VARCHAR(50) NOT NULL,
+                        pic NVARCHAR(255) NOT NULL);
+                        ";
+
+                case "tblOfficial":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblOfficial (
+                        id INT PRIMARY KEY IDENTITY(1,1),
+                        name VARCHAR(50) NOT NULL,
+                        position VARCHAR(50) NOT NULL,
+                        username VARCHAR(50) NOT NULL,
+                        password VARCHAR(50) NOT NULL,
+                        idPic NVARCHAR(255) NOT NULL,
+                        accountStatus VARCHAR(50) NOT NULL);
+                        ";
+
+                case "tblResident":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblResident (
+                        nid INT PRIMARY KEY IDENTITY(1,1),
+                        lname VARCHAR(50) NOT NULL,
+                        fname VARCHAR(50) NOT NULL,
+                        mname VARCHAR(50) NOT NULL,
+                        alias VARCHAR(50) NOT NULL,
+                        bdate DATE NOT NULL,
+                        bplace VARCHAR(50) NOT NULL,
+                        age INT NOT NULL,
+                        civilstatus VARCHAR(50) NOT NULL,
+                        gender VARCHAR(50) NOT NULL,
+                        religion VARCHAR(50) NOT NULL,
+                        email VARCHAR(50) NOT NULL,
+                        contact VARCHAR(20) NOT NULL,
+                        voters VARCHAR(20) NOT NULL,
+                        precint VARCHAR(20) NOT NULL,
+                        purok VARCHAR(50) NOT NULL,
+                        educational VARCHAR(50) NOT NULL,
+                        occupation VARCHAR(50) NOT NULL,
+                        address NVARCHAR(255) NOT NULL,
+                        category VARCHAR(50) NOT NULL,
+                        house VARCHAR(50) NOT NULL,
+                        head VARCHAR(50) NOT NULL,
+                        disability VARCHAR(50) NOT NULL,
+                        status VARCHAR(50) NOT NULL,
+                        pic NVARCHAR(255) NOT NULL);
+                        ";
+
+                case "tblChairmanship":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblChairmanship (
+                        role VARCHAR(50) NOT NULL,
+                        status VARCHAR(50) NOT NULL);
+                        ";
+
+                case "tblPosition":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblPosition (
+                        position VARCHAR(50) NOT NULL,
+                        status VARCHAR(50) NOT NULL);
+                        ";
+
+                case "tblBlotter":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblBlotter (
+                        fileno INT PRIMARY KEY IDENTITY(1,1),
+                        barangay VARCHAR(50) NOT NULL,
+                        purok VARCHAR(50) NOT NULL,
+                        incident VARCHAR(255) NOT NULL,
+                        place VARCHAR(255) NOT NULL,
+                        idate DATE NOT NULL,
+                        itime TIME NOT NULL,
+                        complainant VARCHAR(100) NOT NULL,
+                        witness1 VARCHAR(100) NOT NULL,
+                        witness2 VARCHAR(100) NOT NULL,
+                        narrative TEXT NOT NULL);
+                        ";
+
+                case "tblPayment":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblPayment (
+                        refno INT PRIMARY KEY IDENTITY(1,1),
+                        name VARCHAR(100) NOT NULL,
+                        type VARCHAR(50) NOT NULL,
+                        amount DECIMAL(18, 2) NOT NULL,
+                        sdate DATE NOT NULL,
+                        username VARCHAR(50) NOT NULL);
+                        ";
+
+                case "tblPurok":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblPurok (
+                        purok VARCHAR(50) NOT NULL PRIMARY KEY,
+                        chairman VARCHAR(100) NOT NULL);
+                        ";
+
+                case "tblVaccine":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblVaccine (
+                        rid INT PRIMARY KEY IDENTITY(1,1),
+                        vaccine VARCHAR(50) NOT NULL,
+                        status VARCHAR(50) NOT NULL);
+                        ";
+
+                case "tblDocument":
+                return @"
+                    USE bmis;
+                    CREATE TABLE tblDocument (
+                        refno INT PRIMARY KEY IDENTITY(1,1),
+                        type VARCHAR(50) NOT NULL,
+                        details1 VARCHAR(50) NOT NULL,
+                        details2 VARCHAR(50) NOT NULL,
+                        details3 VARCHAR(50) NOT NULL,
+                        details4 VARCHAR(50) NOT NULL,
+                        details5 VARCHAR(50) NOT NULL,
+                        details6 VARCHAR(50) NOT NULL,
+                        idate DATE NOT NULL,
+                        [user] VARCHAR(50) NOT NULL);
+                        ";
+
+                default:
+                return string.Empty;
+            }
+        }
     }
 }

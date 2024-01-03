@@ -17,7 +17,7 @@ namespace BMIS
         SqlCommand _sqlCommand;
         frmMaintenance f;
         public string _purok;
-        public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
+        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
         public frmPurok(frmMaintenance f)
         {
             InitializeComponent();
