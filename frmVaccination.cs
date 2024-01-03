@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmVaccination : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         frmResidentList f;
         public string _id;
@@ -21,7 +21,7 @@ namespace BMIS
         public frmVaccination(frmResidentList f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -76,23 +76,23 @@ namespace BMIS
                         txtVaccinetype.Text = "N/A";
                         if (CheckDuplicate("Select count(*)from tblVaccine where rid like '" + _id + "'") == true)
                         {
-                            cn.Open();
-                            cm = new SqlCommand("Update tblvaccine set vaccine=@vaccine, status=@status where rid=@rid", cn);
+                            _sqlConnection.Open();
+                            cm = new SqlCommand("Update tblvaccine set vaccine=@vaccine, status=@status where rid=@rid", _sqlConnection);
                             cm.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
                             cm.Parameters.AddWithValue("status", cboVaccinationlist.Text);
                             cm.Parameters.AddWithValue("rid", _id);
                             cm.ExecuteNonQuery();
-                            cn.Close();
+                            _sqlConnection.Close();
                         }
                         else
                         {
-                            cn.Open();
-                            cm = new SqlCommand("insert into tblvaccine (rid,vaccine,status) values (@rid,@vaccine,@status)", cn);
+                            _sqlConnection.Open();
+                            cm = new SqlCommand("insert into tblvaccine (rid,vaccine,status) values (@rid,@vaccine,@status)", _sqlConnection);
                             cm.Parameters.AddWithValue("rid", _id);
                             cm.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
                             cm.Parameters.AddWithValue("status", cboVaccinationlist.Text);
                             cm.ExecuteNonQuery();
-                            cn.Close();
+                            _sqlConnection.Close();
                         }
                         MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         f.LoadVaccination();
@@ -103,7 +103,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -112,10 +112,10 @@ namespace BMIS
             bool duplicate = false;
             try
             {
-                cn.Open();
-                cm = new SqlCommand(sql, cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand(sql, _sqlConnection);
                 int count = int.Parse(cm.ExecuteScalar().ToString());
-                cn.Close();
+                _sqlConnection.Close();
 
                 if (count == 0)
                     duplicate = false;
@@ -124,7 +124,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             return duplicate;

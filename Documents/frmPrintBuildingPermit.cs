@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmPrintBuildingPermit : Form
     {
-        readonly SqlConnection cn;
+        readonly SqlConnection _sqlConnection;
         SqlCommand cm;
         readonly frmDocument f;
         SqlDataReader dr;
@@ -21,7 +21,7 @@ namespace BMIS
         public frmPrintBuildingPermit(frmDocument f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -66,13 +66,13 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to save this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     string user = vars.Users;
-                    cn.Open();
-                    cm = new SqlCommand("Update tblPayment set status = 'Completed' where refno like '" + cboRefNOForBuildingPermit.Text + "'", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Update tblPayment set status = 'Completed' where refno like '" + cboRefNOForBuildingPermit.Text + "'", _sqlConnection);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
 
-                    cn.Open();
-                    cm = new SqlCommand("Insert into tblDocument (refno, type, details1, details2, details3, idate, [user]) values(@refno, @type, @details1, @details2, @details3, @idate, @user)", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Insert into tblDocument (refno, type, details1, details2, details3, idate, [user]) values(@refno, @type, @details1, @details2, @details3, @idate, @user)", _sqlConnection);
                     cm.Parameters.AddWithValue("@refno", cboRefNOForBuildingPermit.Text);
                     cm.Parameters.AddWithValue("@type", "BARANGAY BUILDING PERMIT");
                     cm.Parameters.AddWithValue("@details1", txtNameBusiness.Text);
@@ -81,7 +81,7 @@ namespace BMIS
                     cm.Parameters.AddWithValue("@idate", DateTime.Now);
                     cm.Parameters.AddWithValue("@user", user);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     f.loadBuildingPermit();
                     this.Dispose();
@@ -89,7 +89,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -98,19 +98,19 @@ namespace BMIS
             try
             {
                 cboRefNOForBuildingPermit.Items.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select refno from tblPayment where type like 'BARANGAY BUILDING PERMIT' and status like 'Pending'order by id desc", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select refno from tblPayment where type like 'BARANGAY BUILDING PERMIT' and status like 'Pending'order by id desc", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     cboRefNOForBuildingPermit.Items.Add(dr[0].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -118,8 +118,8 @@ namespace BMIS
         {
                 try
             {
-                cn.Open();
-                cm = new SqlCommand("Select *from tblPayment where refno like '" + cboRefNOForBuildingPermit.Text + "'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblPayment where refno like '" + cboRefNOForBuildingPermit.Text + "'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 dr.Read();
                 if (dr.HasRows)
@@ -127,11 +127,11 @@ namespace BMIS
                     txtNameBusiness.Text = dr["name"].ToString();
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

@@ -14,7 +14,7 @@ namespace BMIS
 {
     public partial class frmResidentList : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -23,7 +23,7 @@ namespace BMIS
         public frmResidentList()
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
         }
 
         private void txtSearchresidentlist_TextChanged(object sender, EventArgs e)
@@ -55,8 +55,8 @@ namespace BMIS
                 {
                     frmResidentInformation f = new frmResidentInformation(this);
                     f.LoadPurok();
-                    cn.Open();
-                    cm = new SqlCommand("Select pic as picture, *from tblResident where id like '"+viewResident.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Select pic as picture, *from tblResident where id like '"+viewResident.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", _sqlConnection);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -97,17 +97,17 @@ namespace BMIS
                     }
                     f.btnSave.Enabled = false;
                     dr.Close();
-                    cn.Close();
+                    _sqlConnection.Close();
                     f.ShowDialog();
                 }
                 else if (colname =="btnDelResident")
                 {
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        cn.Open();
-                        cm = new SqlCommand("delete from tblResident where id like '" + viewResident.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("delete from tblResident where id like '" + viewResident.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         loadrecordResident();
                     }
@@ -115,7 +115,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -124,15 +124,15 @@ namespace BMIS
             try
             {
                 viewResident.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblResident where lname like '%" + txtSearchresidentlist.Text + "%' or fname like '%" + txtSearchresidentlist.Text + "%'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblResident where lname like '%" + txtSearchresidentlist.Text + "%' or fname like '%" + txtSearchresidentlist.Text + "%'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewResident.Rows.Add(dr["id"].ToString(), dr["nid"].ToString(), dr["lname"].ToString(), dr["fname"].ToString(), dr["mname"].ToString(), dr["alias"].ToString(), dr["address"].ToString(), dr["house"].ToString(), dr["category"].ToString(), DateTime.Parse(dr["bdate"].ToString()).ToShortDateString(), dr["age"].ToString(), dr["gender"].ToString(), dr["civilstatus"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewResident.ClearSelection();
                 lblTotalPopulation.Text = CountRecords("Select count(*) from tblResident");
                 lblTotalMember.Text = CountRecords("Select count(*) from tblResident where category like 'MEMBER'");
@@ -144,37 +144,37 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         public string CountRecords(string sql)
         {
-            cn.Open();
-            cm = new SqlCommand(sql, cn);
+            _sqlConnection.Open();
+            cm = new SqlCommand(sql, _sqlConnection);
             string _count = cm.ExecuteScalar().ToString();
-            cn.Close();
+            _sqlConnection.Close();
             return _count;
         }
         public void LoadVaccination()
         {
             try
             {
-                cn.Open();
+                _sqlConnection.Open();
                 viewVaccination.Rows.Clear();
-                cm = new SqlCommand("Select *from vwvaccination where (lname like '%" + txtSearch.Text + "%' or fname like '%" + txtSearch.Text + "%') and status like '" + cboStatus.Text + "'", cn);
+                cm = new SqlCommand("Select *from vwvaccination where (lname like '%" + txtSearch.Text + "%' or fname like '%" + txtSearch.Text + "%') and status like '" + cboStatus.Text + "'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewVaccination.Rows.Add(dr["id"].ToString(), dr["lname"].ToString(), dr["fname"].ToString(), dr["mname"].ToString(), dr["vaccine"].ToString(), dr["status"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewVaccination.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -183,20 +183,20 @@ namespace BMIS
             try
             {
                 viewHousehold.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblResident where (lname+','+fname+''+mname) like'%" + txtSearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblResident where (lname+','+fname+''+mname) like'%" + txtSearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewHousehold.Rows.Add(dr["id"].ToString(), dr["nid"].ToString(), dr["lname"].ToString(), dr["fname"].ToString(), dr["mname"].ToString(), dr["alias"].ToString(), dr["address"].ToString(), dr["house"].ToString(), dr["category"].ToString(), DateTime.Parse(dr["bdate"].ToString()).ToShortDateString(), dr["age"].ToString(), dr["gender"].ToString(), dr["civilstatus"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewHousehold.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -209,8 +209,8 @@ namespace BMIS
                 {
                     string _id = viewHousehold.Rows[e.RowIndex].Cells[0].Value.ToString();
                     frmViewhousehold f = new frmViewhousehold(this);
-                    cn.Open();
-                    cm = new SqlCommand("Select (lname+', '+fname+' '+mname) as fullname, house from tblResident where id =@id", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Select (lname+', '+fname+' '+mname) as fullname, house from tblResident where id =@id", _sqlConnection);
                     cm.Parameters.AddWithValue("@id", _id);
                     dr = cm.ExecuteReader();
                     while (dr.Read())
@@ -219,14 +219,14 @@ namespace BMIS
                         f.lblHouseholdnumber.Text = dr["house"].ToString();
                     }
                     dr.Close();
-                    cn.Close();
+                    _sqlConnection.Close();
                     f.loadViewhousehold();
                     f.ShowDialog();
                 }
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

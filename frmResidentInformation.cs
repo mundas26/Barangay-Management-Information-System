@@ -16,7 +16,7 @@ namespace BMIS
 {
     public partial class frmResidentInformation : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         frmResidentList f;
@@ -28,7 +28,7 @@ namespace BMIS
         {
             InitializeComponent();
             this.f = f;
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             LoadPurok();
         }
 
@@ -80,8 +80,8 @@ namespace BMIS
                     picImage.BackgroundImage.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                     byte[] arrImage = ms.GetBuffer();
 
-                    cn.Open();
-                    cm = new SqlCommand("Insert into tblResident (nid, lname, fname, mname, alias, bdate, bplace, age, civilstatus, gender, religion, email, contact, voters, precint, purok, educational, occupation, address, category, house, head, disability, status, pic) values (@nid, @lname, @fname, @mname, @alias, @bdate, @bplace, @age, @civilstatus, @gender, @religion, @email, @contact, @voters, @precint, @purok, @educational, @occupation, @address, @category, @house, @head, @disability, @status, @pic)", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Insert into tblResident (nid, lname, fname, mname, alias, bdate, bplace, age, civilstatus, gender, religion, email, contact, voters, precint, purok, educational, occupation, address, category, house, head, disability, status, pic) values (@nid, @lname, @fname, @mname, @alias, @bdate, @bplace, @age, @civilstatus, @gender, @religion, @email, @contact, @voters, @precint, @purok, @educational, @occupation, @address, @category, @house, @head, @disability, @status, @pic)", _sqlConnection);
                     cm.Parameters.AddWithValue("@nid", txtID.Text);
                     cm.Parameters.AddWithValue("@lname", txtLname.Text);
                     cm.Parameters.AddWithValue("@fname", txtFname.Text);
@@ -108,7 +108,7 @@ namespace BMIS
                     cm.Parameters.AddWithValue("@status", cboStatus.Text);
                     cm.Parameters.AddWithValue("@pic", arrImage);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     f.loadrecordResident();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
@@ -117,7 +117,7 @@ namespace BMIS
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cn.Close();
+                _sqlConnection.Close();
             }
         }
 
@@ -169,8 +169,8 @@ namespace BMIS
                     picImage.BackgroundImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                     byte[] arrImage = ms.GetBuffer();
 
-                    cn.Open();
-                    cm = new SqlCommand("Update tblResident set nid=@nid, lname= @lname, fname= @fname, mname= @mname, alias= @alias, bdate= @bdate, bplace= @bplace, age= @age, civilstatus= @civilstatus, gender= @gender, religion= @religion, email= @email, contact= @contact, voters= @voters, precint= @precint, purok= @purok, educational= @educational, occupation= @occupation, address= @address, category= @category, house= @house, head= @head, disability= @disability, status= @status, pic= @pic where id= @id", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Update tblResident set nid=@nid, lname= @lname, fname= @fname, mname= @mname, alias= @alias, bdate= @bdate, bplace= @bplace, age= @age, civilstatus= @civilstatus, gender= @gender, religion= @religion, email= @email, contact= @contact, voters= @voters, precint= @precint, purok= @purok, educational= @educational, occupation= @occupation, address= @address, category= @category, house= @house, head= @head, disability= @disability, status= @status, pic= @pic where id= @id", _sqlConnection);
                     cm.Parameters.AddWithValue("@nid", txtID.Text);
                     cm.Parameters.AddWithValue("@lname", txtLname.Text);
                     cm.Parameters.AddWithValue("@fname", txtFname.Text);
@@ -198,7 +198,7 @@ namespace BMIS
                     cm.Parameters.AddWithValue("@pic", arrImage);
                     cm.Parameters.AddWithValue("@id", _id);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully Updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
                     f.loadrecordResident();
@@ -207,7 +207,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -245,20 +245,20 @@ namespace BMIS
             try
             {
                 cboPurok.Items.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblPurok", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblPurok", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     cboPurok.Items.Add(dr["purok"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cn.Close();
+                _sqlConnection.Close();
             }
         }
 

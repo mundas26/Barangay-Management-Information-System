@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmPurok : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         frmMaintenance f;
         public string _purok;
@@ -21,7 +21,7 @@ namespace BMIS
         public frmPurok(frmMaintenance f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -52,12 +52,12 @@ namespace BMIS
             {
                 if (MessageBox.Show("Do you want to save this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    cn.Open();
-                    cm = new SqlCommand("Insert into tblPurok(purok, chairman)values(@purok, @chairman)", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Insert into tblPurok(purok, chairman)values(@purok, @chairman)", _sqlConnection);
                     cm.Parameters.AddWithValue("@purok", txtPurok.Text);
                     cm.Parameters.AddWithValue("@chairman", txtChairman.Text);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     f.LoadPurok();
                     Clear();
@@ -65,7 +65,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -92,13 +92,13 @@ namespace BMIS
             {
                 if (MessageBox.Show("Do you want to update this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    cn.Open();
-                    cm = new SqlCommand("update tblPurok set purok= @purok, chairman= @chairman where purok= @purok1", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("update tblPurok set purok= @purok, chairman= @chairman where purok= @purok1", _sqlConnection);
                     cm.Parameters.AddWithValue("@purok", txtPurok.Text);
                     cm.Parameters.AddWithValue("@chairman", txtChairman.Text);
                     cm.Parameters.AddWithValue("@purok1", _purok);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
                     f.LoadPurok();
@@ -107,7 +107,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

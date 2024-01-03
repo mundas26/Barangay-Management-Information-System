@@ -2669,7 +2669,6 @@ SELECT id, fileno, barangay, purok, incident, place, idate, itime, complainant, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::BMIS.Properties.Settings.Default.bmisConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3322,7 +3321,6 @@ SELECT refno, type, details1, details2, details3, details4, details5, details6, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::BMIS.Properties.Settings.Default.bmisConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3812,7 +3810,6 @@ SELECT refno, type, details1, details2, details3, details4, details5, details6, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::BMIS.Properties.Settings.Default.bmisConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4301,7 +4298,6 @@ SELECT refno, type, details1, details2, details3, details4, details5, details6, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::BMIS.Properties.Settings.Default.bmisConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

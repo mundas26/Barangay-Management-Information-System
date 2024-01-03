@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmHousehold : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         frmResidentInformation f;
@@ -23,7 +23,7 @@ namespace BMIS
         public frmHousehold(frmResidentInformation f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -41,21 +41,21 @@ namespace BMIS
             try
             {
                 viewHousehold.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblResident where (lname+ ',' +fname+ ' ' +mname) like '%" + txtsearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblResident where (lname+ ',' +fname+ ' ' +mname) like '%" + txtsearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewHousehold.Rows.Add(dr["id"].ToString(), dr["house"].ToString(), dr["lname"].ToString() + ", " + dr["fname"].ToString() + " " + dr["mname"].ToString(), dr["address"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewHousehold.ClearSelection();
                 lblRecordcount.Text = "Record count(" + viewHousehold.RowCount + ")";
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

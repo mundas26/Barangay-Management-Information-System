@@ -14,14 +14,14 @@ namespace BMIS
 {
     public partial class frmDocument : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public frmDocument()
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
         }
         private void btnBrgyClearance_Click(object sender, EventArgs e)
         {
@@ -34,20 +34,20 @@ namespace BMIS
             try
             {
                 viewBusinessPermit.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblDocument where type like 'BUSINESS PERMIT' and idate = cast(getdate() as date)",cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblDocument where type like 'BUSINESS PERMIT' and idate = cast(getdate() as date)",_sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewBusinessPermit.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["details1"].ToString(), dr["details2"].ToString(), dr["details3"].ToString(), DateTime.Parse(dr["idate"].ToString()).ToShortDateString(), dr["user"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewBusinessPermit.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -56,19 +56,19 @@ namespace BMIS
             try
             {
                 viewBrgyClearance.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblDocument where type like 'BARANGAY CLEARANCE' and idate = cast(getdate() as date)", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblDocument where type like 'BARANGAY CLEARANCE' and idate = cast(getdate() as date)", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewBrgyClearance.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["details1"].ToString(), dr["details2"].ToString(), dr["details3"].ToString(), dr["details4"].ToString(), DateTime.Parse(dr["idate"].ToString()).ToShortDateString(), dr["user"].ToString());
                 }
-                cn.Close();
+                _sqlConnection.Close();
                 viewBrgyClearance.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -77,20 +77,20 @@ namespace BMIS
             try
             {
                 viewBuildingPermit.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblDocument where type like 'BARANGAY BUILDING PERMIT' and idate = cast(getdate() as date)", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblDocument where type like 'BARANGAY BUILDING PERMIT' and idate = cast(getdate() as date)", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewBuildingPermit.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["details1"].ToString(), dr["details2"].ToString(), dr["details3"].ToString(), DateTime.Parse(dr["idate"].ToString()).ToShortDateString(), dr["user"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewBuildingPermit.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -115,7 +115,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -155,7 +155,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -174,7 +174,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

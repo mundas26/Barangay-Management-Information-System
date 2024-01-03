@@ -14,7 +14,7 @@ namespace BMIS
 {
     public partial class frmMaintenance : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         public string _id;
@@ -22,7 +22,7 @@ namespace BMIS
         public frmMaintenance()
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
         }
         private void btnmaintenanceBrgyAddnew_Click(object sender, EventArgs e)
         {
@@ -38,8 +38,8 @@ namespace BMIS
             try
             {
                 viewBrgy.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select * from tblOfficial", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select * from tblOfficial", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
@@ -47,12 +47,12 @@ namespace BMIS
                     dr["position"].ToString(), DateTime.Parse(dr["termstart"].ToString()).ToShortDateString(), DateTime.Parse(dr["termend"].ToString()).ToShortDateString(), dr["status"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewBrgy.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -62,20 +62,20 @@ namespace BMIS
             try
             {
                 viewPurok.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblPurok", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblPurok", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewPurok.Rows.Add(dr["purok"].ToString(), dr["chairman"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewPurok.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -108,10 +108,10 @@ namespace BMIS
                 {
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        cn.Open();
-                        cm = new SqlCommand("delete  from tblPurok where purok like '" + viewPurok.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("delete  from tblPurok where purok like '" + viewPurok.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPurok();
                     }
@@ -119,7 +119,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -136,8 +136,8 @@ namespace BMIS
                     f.cboPosition.DropDownStyle = ComboBoxStyle.Simple;
                     f.cboChairmanship.Enabled = false;
                     f.cboPosition.Enabled = false;
-                    cn.Open();
-                    cm = new SqlCommand("Select photopost as Pictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Select photopost as Pictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -167,15 +167,15 @@ namespace BMIS
                         }
                     }
                     dr.Close();
-                    cn.Close();
+                    _sqlConnection.Close();
                     f.ShowDialog();
                 }
                 else if (colname == "btnDelete1")
                 {
                     string imagePath;
                     string imagePath2;
-                    cn.Open();
-                    cm = new SqlCommand("Select photopost as OfficialPost, idPic as idPictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Select photopost as OfficialPost, idPic as idPictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -192,24 +192,24 @@ namespace BMIS
                         }
                     }
                     dr.Close();
-                    cn.Close();
+                    _sqlConnection.Close();
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         frmOfficial f = new frmOfficial(this);
-                        cn.Open();
-                        cm = new SqlCommand("Update tblChairmanship set status= 'InActive' where role like '"+viewBrgy.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("Update tblChairmanship set status= 'InActive' where role like '"+viewBrgy.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",_sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
 
-                        cn.Open();
-                        cm = new SqlCommand("Update tblPosition set status= 'InActive' where position like '" + viewBrgy.Rows[e.RowIndex].Cells[3].Value.ToString() + "'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("Update tblPosition set status= 'InActive' where position like '" + viewBrgy.Rows[e.RowIndex].Cells[3].Value.ToString() + "'", _sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
 
-                        cn.Open();
-                        cm = new SqlCommand("delete from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("delete from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadRecordOfficial();
                         LoadRecordAccount();
@@ -219,7 +219,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -236,20 +236,20 @@ namespace BMIS
             try
             {
                 viewAccount.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblOfficial where accountStatus like 'Completed'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblOfficial where accountStatus like 'Completed'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewAccount.Rows.Add(dr["id"].ToString(), dr["name"].ToString(), dr["position"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewAccount.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -265,8 +265,8 @@ namespace BMIS
                     f.cboPosition.DropDownStyle = ComboBoxStyle.Simple;
                     f.cboPosition.Enabled = false;
                     f.txtName.Enabled = false;
-                    cn.Open();
-                    cm = new SqlCommand("Select *from tblOfficial where id like '"+viewAccount.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Select *from tblOfficial where id like '"+viewAccount.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", _sqlConnection);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -293,7 +293,7 @@ namespace BMIS
                         }
                     }
                     f.btnSave.Enabled = false;
-                    cn.Close();
+                    _sqlConnection.Close();
                     dr.Close();
                     f.ShowDialog();
                 }
@@ -302,15 +302,15 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         string selectedRow = viewAccount.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        cn.Open();
-                        cm = new SqlCommand("Update tblOfficial set accountStatus= 'Incomplete' where position like '"+viewAccount.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("Update tblOfficial set accountStatus= 'Incomplete' where position like '"+viewAccount.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",_sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
 
-                        cn.Open();
-                        cm = new SqlCommand("delete  from tblUser where id like '" + selectedRow + "'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("delete  from tblUser where id like '" + selectedRow + "'", _sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadRecordAccount();
                     }
@@ -318,7 +318,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -327,20 +327,20 @@ namespace BMIS
             try
             {
                 viewExistingPosition.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblPosition",cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblPosition",_sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewExistingPosition.Rows.Add(dr["id"].ToString(), dr["position"].ToString(), dr["status"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewExistingPosition.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -349,20 +349,20 @@ namespace BMIS
             try
             {
                 viewExistingChairmanship.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblChairmanship", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblChairmanship", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewExistingChairmanship.Rows.Add(dr["id"].ToString(), dr["role"].ToString(), dr["status"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewExistingChairmanship.ClearSelection();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -383,10 +383,10 @@ namespace BMIS
                 {
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        cn.Open();
-                        cm = new SqlCommand("delete from tblPosition where id like '" + viewExistingPosition.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("delete from tblPosition where id like '" + viewExistingPosition.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadExistingPositionIntoDataview();
 
@@ -395,7 +395,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -416,10 +416,10 @@ namespace BMIS
                 {
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        cn.Open();
-                        cm = new SqlCommand("delete from tblChairmanship where id like '" + viewExistingChairmanship.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("delete from tblChairmanship where id like '" + viewExistingChairmanship.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadExistingChairmanshipIntoDataview();
 
@@ -428,7 +428,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

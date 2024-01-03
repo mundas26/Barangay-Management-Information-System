@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmPayment : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         Random rnd;
         frmPaymentList f;
@@ -21,7 +21,7 @@ namespace BMIS
         public frmPayment(frmPaymentList f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -61,8 +61,8 @@ namespace BMIS
             {
                 if (MessageBox.Show("Do you want to save this payment?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    cn.Open();
-                    cm = new SqlCommand("Insert into tblPayment (refno, name, type, amount, sdate, username) values(@refno, @name, @type, @amount, @sdate, @username)", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Insert into tblPayment (refno, name, type, amount, sdate, username) values(@refno, @name, @type, @amount, @sdate, @username)", _sqlConnection);
                     cm.Parameters.AddWithValue("@refno", lblRefno.Text);
                     cm.Parameters.AddWithValue("@name", txtname.Text);
                     cm.Parameters.AddWithValue("@type", cboTypeofpayment.Text);
@@ -70,7 +70,7 @@ namespace BMIS
                     cm.Parameters.AddWithValue("@sdate", DateTime.Now);
                     cm.Parameters.AddWithValue("@username", vars.Users);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
                     f.LoadPaymentTotalRecord();
@@ -79,7 +79,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 GetReferenceNO();
             }

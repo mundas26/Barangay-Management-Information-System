@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmPrintBusiness : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         frmDocument f;
@@ -21,7 +21,7 @@ namespace BMIS
         public frmPrintBusiness(frmDocument f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -34,19 +34,19 @@ namespace BMIS
             try
             {
                 cboRefNOForBusiness.Items.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select refno from tblPayment where type like 'BUSINESS PERMIT' and status like 'Pending'order by id desc", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select refno from tblPayment where type like 'BUSINESS PERMIT' and status like 'Pending'order by id desc", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     cboRefNOForBusiness.Items.Add(dr[0].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -87,13 +87,13 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to save this record?",vars._title,MessageBoxButtons.YesNo,MessageBoxIcon.Question)== DialogResult.Yes)
                 {
                     string user = vars.Users;
-                    cn.Open();
-                    cm = new SqlCommand("Update tblPayment set status = 'Completed' where refno like '" + cboRefNOForBusiness.Text + "'", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Update tblPayment set status = 'Completed' where refno like '" + cboRefNOForBusiness.Text + "'", _sqlConnection);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
 
-                    cn.Open();
-                    cm = new SqlCommand("Insert into tblDocument (refno, type, details1, details2, details3, idate, [user]) values(@refno, @type, @details1, @details2, @details3, @idate, @user)",cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Insert into tblDocument (refno, type, details1, details2, details3, idate, [user]) values(@refno, @type, @details1, @details2, @details3, @idate, @user)",_sqlConnection);
                     cm.Parameters.AddWithValue("@refno",cboRefNOForBusiness.Text);
                     cm.Parameters.AddWithValue("@type", "BUSINESS PERMIT");
                     cm.Parameters.AddWithValue("@details1",txtNameofbusiness.Text);
@@ -102,7 +102,7 @@ namespace BMIS
                     cm.Parameters.AddWithValue("@idate", DateTime.Now);
                     cm.Parameters.AddWithValue("@user", user);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!",vars._title,MessageBoxButtons.OK,MessageBoxIcon.Information);
                     f.loadBusinessPermit();
                     this.Dispose();
@@ -110,7 +110,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -119,8 +119,8 @@ namespace BMIS
         {
             try
             {
-                cn.Open();
-                cm = new SqlCommand("Select *from tblPayment where refno like'"+cboRefNOForBusiness.Text+"'",cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblPayment where refno like'"+cboRefNOForBusiness.Text+"'",_sqlConnection);
                 dr = cm.ExecuteReader();
                 dr.Read();
                 if (dr.HasRows)
@@ -128,12 +128,12 @@ namespace BMIS
                     txtNameofonwer.Text = dr["name"].ToString();
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
 
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }

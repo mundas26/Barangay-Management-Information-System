@@ -14,7 +14,7 @@ namespace BMIS
 {
     public partial class frmSecurity : Form
     {
-        readonly SqlConnection cn;
+        readonly SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         public string _username = "", _password = "", _name = "", _role = "", _pic; 
@@ -27,7 +27,7 @@ namespace BMIS
         public frmSecurity()
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             ImagesSlideShow();
         }
         
@@ -78,9 +78,9 @@ namespace BMIS
             try
             {
                 bool Found = false;
-                cn.Open();
+                _sqlConnection.Open();
 
-                cm = new SqlCommand("Select *from tblOfficial where username=@username and password=@password", cn);
+                cm = new SqlCommand("Select *from tblOfficial where username=@username and password=@password", _sqlConnection);
                 cm.Parameters.AddWithValue("@username", txtUser.Text);
                 cm.Parameters.AddWithValue("@password", txtPass.Text);
                 dr = cm.ExecuteReader();
@@ -99,7 +99,7 @@ namespace BMIS
                 }
 
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
 
                 if (Found)
                 {
@@ -163,7 +163,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

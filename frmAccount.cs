@@ -8,9 +8,9 @@ namespace BMIS
 {
     public partial class frmAccount : Form
     {
-        SqlConnection cn;
-        SqlCommand cm;
-        SqlDataReader dr;
+        private readonly SqlConnection _sqlConnection;
+        private SqlCommand _sqlCommand;
+        private SqlDataReader _sqlDataReader;
         public string _id;
         public frmMaintenance f;
         public frmSecurity f1;
@@ -19,7 +19,7 @@ namespace BMIS
         public frmAccount(frmMaintenance f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -27,7 +27,7 @@ namespace BMIS
         {
             InitializeComponent();
             this.f1 = f1;
-            cn = new SqlConnection(dbconstring.connection);
+            _sqlConnection = new SqlConnection(dbconstring.connection);
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -69,29 +69,29 @@ namespace BMIS
                     {
                         if (cboPosition.Text == cboPosition.SelectedItem.ToString())
                         {
-                            cn.Open();
-                            cm = new SqlCommand("Update tblOfficial set accountStatus = 'Completed' where position like '" + cboPosition.Text + "'", cn);
-                            cm.ExecuteNonQuery();
-                            cn.Close();
+                            _sqlConnection.Open();
+                            _sqlCommand = new SqlCommand("Update tblOfficial set accountStatus = 'Completed' where position like '" + cboPosition.Text + "'", _sqlConnection);
+                            _sqlCommand.ExecuteNonQuery();
+                            _sqlConnection.Close();
 
                             var randomFilename = Path.GetRandomFileName() + ".jpg";
                             string folder = @".\Images";
                             string path = System.IO.Path.Combine(folder, randomFilename);
 
-                            cn.Open();
-                            cm = new SqlCommand("Insert into tblUser (name, username, password, role, pic) values (@name, @username, @password, @role, @pic)", cn);
-                            cm.Parameters.AddWithValue("@name", txtName.Text);
-                            cm.Parameters.AddWithValue("@username", txtUser.Text);
-                            cm.Parameters.AddWithValue("@password", txtPass.Text);
-                            cm.Parameters.AddWithValue("@role", cboPosition.Text);
-                            cm.Parameters.AddWithValue("@pic", path);
+                            _sqlConnection.Open();
+                            _sqlCommand = new SqlCommand("Insert into tblUser (name, username, password, role, pic) values (@name, @username, @password, @role, @pic)", _sqlConnection);
+                            _sqlCommand.Parameters.AddWithValue("@name", txtName.Text);
+                            _sqlCommand.Parameters.AddWithValue("@username", txtUser.Text);
+                            _sqlCommand.Parameters.AddWithValue("@password", txtPass.Text);
+                            _sqlCommand.Parameters.AddWithValue("@role", cboPosition.Text);
+                            _sqlCommand.Parameters.AddWithValue("@pic", path);
 
                             Image image = picIDPicture.Image;
                             image.Save(path);
 
-                            cm.ExecuteNonQuery();
-                            dr.Close();
-                            cn.Close();
+                            _sqlCommand.ExecuteNonQuery();
+                            _sqlDataReader.Close();
+                            _sqlConnection.Close();
                             f.LoadRecordAccount();
                             LoadPositionForMakingAnNewAccount();
                             Clear();
@@ -113,7 +113,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -129,22 +129,22 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to change this Image?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     string imagePath;
-                    cn.Open();
-                    cm = new SqlCommand("Select idPic as IdPicture, *from tblOfficial where id like '"+_id+"'",cn);
-                    dr = cm.ExecuteReader();
-                    dr.Read();
-                    if (dr.HasRows)
+                    _sqlConnection.Open();
+                    _sqlCommand = new SqlCommand("Select idPic as IdPicture, *from tblOfficial where id like '"+_id+"'", _sqlConnection);
+                    _sqlDataReader = _sqlCommand.ExecuteReader();
+                    _sqlDataReader.Read();
+                    if (_sqlDataReader.HasRows)
                     {
-                        imagePath = dr["idPic"].ToString();
+                        imagePath = _sqlDataReader["idPic"].ToString();
                         if (File.Exists(imagePath))
                         {
                             File.Delete(imagePath);
                             button1.Visible = false;
                         }
-                        cn.Close();
+                        _sqlConnection.Close();
                     }
-                    dr.Close();
-                    cn.Close();
+                    _sqlDataReader.Close();
+                    _sqlConnection.Close();
                     openFileDialog1.Filter = "Select image(*.jpg;*.png;*.jpeg)| *.jpg;*.png;*.jpeg";
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
@@ -177,20 +177,20 @@ namespace BMIS
             if (MessageBox.Show("Do you want to clear it all?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 string imagePath;
-                cn.Open();
-                cm = new SqlCommand("Select idPic as IdPicture, *from tblOfficial where id like '"+_id+"'",cn);
-                dr = cm.ExecuteReader();
-                dr.Read();
-                if (dr.HasRows)
+                _sqlConnection.Open();
+                _sqlCommand = new SqlCommand("Select idPic as IdPicture, *from tblOfficial where id like '"+_id+"'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                _sqlDataReader.Read();
+                if (_sqlDataReader.HasRows)
                 {
-                    imagePath = dr["idPic"].ToString();
+                    imagePath = _sqlDataReader["idPic"].ToString();
                     if (File.Exists(imagePath))
                     {
                         File.Delete(imagePath);
                     }
                 }
-                dr.Close();
-                cn.Close();
+                _sqlDataReader.Close();
+                _sqlConnection.Close();
                 Clear();
                 button1.Visible = false;
             }
@@ -235,20 +235,20 @@ namespace BMIS
                         string newFilename = Path.GetRandomFileName();
                         string imagePath = @".\Images\" + newFilename + ".jpg";
 
-                        cn.Open();
-                        cm = new SqlCommand("UPDATE tblOfficial SET name=@name, position=@position, username=@username, password=@password, idPic=@idPic, accountStatus=@accountStatus WHERE position=@position", cn);
-                        cm.Parameters.AddWithValue("@name", txtName.Text);
-                        cm.Parameters.AddWithValue("@position", cboPosition.Text);
-                        cm.Parameters.AddWithValue("@username", txtUser.Text);
-                        cm.Parameters.AddWithValue("@password", txtPass.Text);
-                        cm.Parameters.AddWithValue("@idPic", imagePath);
-                        cm.Parameters.AddWithValue("@accountStatus", "Completed");
+                        _sqlConnection.Open();
+                        _sqlCommand = new SqlCommand("UPDATE tblOfficial SET name=@name, position=@position, username=@username, password=@password, idPic=@idPic, accountStatus=@accountStatus WHERE position=@position", _sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@name", txtName.Text);
+                        _sqlCommand.Parameters.AddWithValue("@position", cboPosition.Text);
+                        _sqlCommand.Parameters.AddWithValue("@username", txtUser.Text);
+                        _sqlCommand.Parameters.AddWithValue("@password", txtPass.Text);
+                        _sqlCommand.Parameters.AddWithValue("@idPic", imagePath);
+                        _sqlCommand.Parameters.AddWithValue("@accountStatus", "Completed");
 
                         Image image = picIDPicture.Image;
                         image.Save(imagePath);
 
-                        cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlCommand.ExecuteNonQuery();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Clear();
                         f.LoadRecordAccount();
@@ -263,13 +263,13 @@ namespace BMIS
                 }
                 else
                 {
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Password didn't match!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -277,17 +277,17 @@ namespace BMIS
         {
             string previousImagePath = "";
 
-            string position = cboPosition.Text; 
-            cn.Open();
-            cm = new SqlCommand("Select idPic from tblOfficial where position = @position", cn);
-            cm.Parameters.AddWithValue("@position", position);
-            dr = cm.ExecuteReader();
-            if (dr.Read())
+            string position = cboPosition.Text;
+            _sqlConnection.Open();
+            _sqlCommand = new SqlCommand("Select idPic from tblOfficial where position = @position", _sqlConnection);
+            _sqlCommand.Parameters.AddWithValue("@position", position);
+            _sqlDataReader = _sqlCommand.ExecuteReader();
+            if (_sqlDataReader.Read())
             {
-                previousImagePath = dr["idPic"].ToString();
+                previousImagePath = _sqlDataReader["idPic"].ToString();
             }
-            dr.Close();
-            cn.Close();
+            _sqlDataReader.Close();
+            _sqlConnection.Close();
             return previousImagePath;
         }
         private void picEyeClose_Click(object sender, EventArgs e)
@@ -307,19 +307,19 @@ namespace BMIS
         {
             try
             {
-                cn.Open();
-                cm = new SqlCommand("Select position from tblOfficial where accountStatus like 'Incomplete' order by id asc", cn);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlConnection.Open();
+                _sqlCommand = new SqlCommand("Select position from tblOfficial where accountStatus like 'Incomplete' order by id asc", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    cboPosition.Items.Add(dr["position"].ToString());
+                    cboPosition.Items.Add(_sqlDataReader["position"].ToString());
                 }
-                dr.Close();
-                cn.Close();
+                _sqlDataReader.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -328,20 +328,20 @@ namespace BMIS
         {
             try
             {
-                cn.Open();
-                cm = new SqlCommand("Select *from tblOfficial where position like '" + cboPosition.Text + "'", cn);
-                dr = cm.ExecuteReader();
-                dr.Read();
-                if (dr.HasRows)
+                _sqlConnection.Open();
+                _sqlCommand = new SqlCommand("Select *from tblOfficial where position like '" + cboPosition.Text + "'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                _sqlDataReader.Read();
+                if (_sqlDataReader.HasRows)
                 {
-                    txtName.Text = dr["name"].ToString();
+                    txtName.Text = _sqlDataReader["name"].ToString();
                 }
-                dr.Close();
-                cn.Close();
+                _sqlDataReader.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

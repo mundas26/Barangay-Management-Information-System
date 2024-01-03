@@ -13,14 +13,14 @@ namespace BMIS
 {
     public partial class frmPaymentList : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public frmPaymentList()
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -36,11 +36,11 @@ namespace BMIS
                 {
                     if (MessageBox.Show("Do you want to delete this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        cn.Open();
-                        cm = new SqlCommand("Delete from tblPayment where id =@id", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("Delete from tblPayment where id =@id", _sqlConnection);
                         cm.Parameters.AddWithValue("@id", viewPaymentlist.Rows[e.RowIndex].Cells[0].Value.ToString());
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("The record has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPaymentTotalRecord();
                     }
@@ -48,7 +48,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -58,8 +58,8 @@ namespace BMIS
             {
                 double _amount = 0;
                 viewPaymentlist.Rows.Clear();
-                cn.Open();
-                cm = new SqlCommand("Select *from tblPayment where sdate between'"+dt1.Value.ToString("yyyy-MM-dd")+"' and '"+dt2.Value.ToString("yyyy-MM-dd")+"'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblPayment where sdate between'"+dt1.Value.ToString("yyyy-MM-dd")+"' and '"+dt2.Value.ToString("yyyy-MM-dd")+"'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
@@ -67,13 +67,13 @@ namespace BMIS
                     viewPaymentlist.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["name"].ToString(), dr["type"].ToString(), dr["amount"].ToString(), DateTime.Parse(dr["sdate"].ToString()).ToString("MM-dd-yyyy"), dr["username"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
                 viewPaymentlist.ClearSelection();
                 lblTotalamount.Text = _amount.ToString("#,##0.00");
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -99,11 +99,11 @@ namespace BMIS
                 {
                     if (MessageBox.Show("Do you want to delete this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        cn.Open();
-                        cm = new SqlCommand("Delete from tblPayment where id =@id", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("Delete from tblPayment where id =@id", _sqlConnection);
                         cm.Parameters.AddWithValue("@id", viewPaymentlist.Rows[e.RowIndex].Cells[0].Value.ToString());
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("The record has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPaymentTotalRecord();
                     }
@@ -111,7 +111,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

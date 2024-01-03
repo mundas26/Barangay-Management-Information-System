@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmBlotter : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         frmIssue f;
@@ -22,7 +22,7 @@ namespace BMIS
         public frmBlotter(frmIssue f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -48,8 +48,8 @@ namespace BMIS
             {
                 if (MessageBox.Show("Do you want to save this blotter?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    cn.Open();
-                    cm = new SqlCommand("insert into tblBlotter (fileno,barangay, purok, incident, place, idate, itime, complainant, witness1, witness2, narrative) values (@fileno, @barangay, @purok, @incident, @place, @idate, @itime, @complainant, @witness1, @witness2, @narrative)", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("insert into tblBlotter (fileno,barangay, purok, incident, place, idate, itime, complainant, witness1, witness2, narrative) values (@fileno, @barangay, @purok, @incident, @place, @idate, @itime, @complainant, @witness1, @witness2, @narrative)", _sqlConnection);
                     cm.Parameters.AddWithValue("@fileno", lblFileno.Text);
                     cm.Parameters.AddWithValue("@barangay", txtBrgy.Text);
                     cm.Parameters.AddWithValue("@purok", txtPurok.Text);
@@ -62,7 +62,7 @@ namespace BMIS
                     cm.Parameters.AddWithValue("@witness2", txtWitness2.Text);
                     cm.Parameters.AddWithValue("@narrative", txtNarrative.Text);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
                     f.loadBlotter();
@@ -70,7 +70,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -84,25 +84,25 @@ namespace BMIS
             }
             try
             {
-                cn.Open();
-                cm = new SqlCommand("Select  top 1 fileno from  tblBlotter  where fileno like '" + fileno + "%' order by id desc", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select  top 1 fileno from  tblBlotter  where fileno like '" + fileno + "%' order by id desc", _sqlConnection);
                 dr = cm.ExecuteReader();
                 dr.Read();
                 if (dr.HasRows)
                 {
                     lblFileno.Text = GetFileNO();
                     dr.Close();
-                    cn.Close();
+                    _sqlConnection.Close();
                 }
                 else
                 {
                     dr.Close();
-                    cn.Close();
+                    _sqlConnection.Close();
                 }
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             return fileno;
@@ -155,8 +155,8 @@ namespace BMIS
             {
                 if (MessageBox.Show("Are you sure you want to update this Record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    cn.Open();
-                    cm = new SqlCommand("Update tblBlotter set barangay=@barangay, purok=@purok, incident=@incident, place=@place, idate=@idate, itime=@itime, complainant=@complainant, witness1=@witness1, witness2=@witness2, narrative=@narrative where id=@id", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("Update tblBlotter set barangay=@barangay, purok=@purok, incident=@incident, place=@place, idate=@idate, itime=@itime, complainant=@complainant, witness1=@witness1, witness2=@witness2, narrative=@narrative where id=@id", _sqlConnection);
                     cm.Parameters.AddWithValue("barangay", txtBrgy.Text);
                     cm.Parameters.AddWithValue("purok", txtBrgy.Text);
                     cm.Parameters.AddWithValue("incident", txtIncident.Text);
@@ -169,7 +169,7 @@ namespace BMIS
                     cm.Parameters.AddWithValue("narrative", txtNarrative.Text);
                     cm.Parameters.AddWithValue("id", _id);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully Updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     f.loadBlotter();
                     Clear();
@@ -178,7 +178,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

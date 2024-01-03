@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmViewhousehold : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         frmResidentList f;
@@ -21,7 +21,7 @@ namespace BMIS
         public frmViewhousehold(frmResidentList f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
 
@@ -33,20 +33,20 @@ namespace BMIS
         {
             try
             {
-                cn.Open();
+                _sqlConnection.Open();
                 viewHousehold.Rows.Clear();
-                cm = new SqlCommand("Select id, address,(lname+', '+fname+' '+mname) as fullname, bdate, age from tblResident where house like '2987' and category like 'MEMBER'", cn);
+                cm = new SqlCommand("Select id, address,(lname+', '+fname+' '+mname) as fullname, bdate, age from tblResident where house like '2987' and category like 'MEMBER'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     viewHousehold.Rows.Add(dr["id"].ToString(), dr["fullname"].ToString(), DateTime.Parse(dr["bdate"].ToString()).ToShortDateString(), dr["age"].ToString(), dr["address"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

@@ -10,7 +10,7 @@ namespace BMIS
 {
     public class Check
     {
-        public static SqlConnection cn;
+        public static SqlConnection _sqlConnection;
         public static SqlCommand cm;
         public static string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public static bool checkDuplicate(string sql)
@@ -18,11 +18,11 @@ namespace BMIS
             bool IsUserExisted = false;
             try
             {
-                cn = new SqlConnection(DbString);
-                cn.Open();
-                cm = new SqlCommand(sql, cn);
+                _sqlConnection = new SqlConnection(DbString);
+                _sqlConnection.Open();
+                cm = new SqlCommand(sql, _sqlConnection);
                 int count = (int)cm.ExecuteScalar();
-                cn.Close();
+                _sqlConnection.Close();
 
                 if (count == 0)
                     IsUserExisted = false;
@@ -31,7 +31,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             return IsUserExisted;

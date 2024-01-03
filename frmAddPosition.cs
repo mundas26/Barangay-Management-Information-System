@@ -13,7 +13,7 @@ namespace BMIS
 {
     public partial class frmAddPosition : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlDataReader dr;
         SqlCommand cm;
         frmMaintenance f1;
@@ -23,13 +23,13 @@ namespace BMIS
         public frmAddPosition(frmMaintenance f1)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f1 = f1;
         }
         public frmAddPosition(frmOfficial f)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbconstring.connection);
+            _sqlConnection = new SqlConnection(dbconstring.connection);
             this.f = f;
         }
 
@@ -41,19 +41,19 @@ namespace BMIS
         {
             try
             {
-                cn.Open();
-                cm = new SqlCommand("Select position from tblPosition", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select position from tblPosition", _sqlConnection);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
                     cboPosition.Items.Add(dr["position"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
@@ -68,12 +68,12 @@ namespace BMIS
                     frmMaintenance f = new frmMaintenance();
                     if (Check.checkDuplicate("Select count(*)from tblPosition where position like '" + txtAddPosition.Text + "'") == true)
                     {
-                        cn.Open();
-                        cm = new SqlCommand("Update tblPosition set position = @position, status = @status where position like '"+txtAddPosition.Text+"'", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("Update tblPosition set position = @position, status = @status where position like '"+txtAddPosition.Text+"'", _sqlConnection);
                         cm.Parameters.AddWithValue("@position", txtAddPosition.Text);
                         cm.Parameters.AddWithValue("@status", "InActive");
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtAddPosition.Text = "";
                         LoadExistingPostion();
@@ -82,12 +82,12 @@ namespace BMIS
                     }
                     else
                     {
-                        cn.Open();
-                        cm = new SqlCommand("Insert into tblPosition (position, status) values (@position, @status)", cn);
+                        _sqlConnection.Open();
+                        cm = new SqlCommand("Insert into tblPosition (position, status) values (@position, @status)", _sqlConnection);
                         cm.Parameters.AddWithValue("@position", txtAddPosition.Text);
                         cm.Parameters.AddWithValue("@status", "InActive");
                         cm.ExecuteNonQuery();
-                        cn.Close();
+                        _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtAddPosition.Clear();
                         LoadExistingPostion();
@@ -102,7 +102,7 @@ namespace BMIS
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -111,8 +111,8 @@ namespace BMIS
         {
             try
             {
-                cn.Open();
-                cm = new SqlCommand("Select *from tblPosition where position like '" + cboPosition.Text + "'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("Select *from tblPosition where position like '" + cboPosition.Text + "'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 dr.Read();
                 if (dr.HasRows)
@@ -121,11 +121,11 @@ namespace BMIS
                     btnAdd.Text = "UPDATE";
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -136,17 +136,17 @@ namespace BMIS
             {
                 if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    cn.Open();
-                    cm = new SqlCommand("delete from tblPosition where position like '" + cboPosition.Text + "'", cn);
+                    _sqlConnection.Open();
+                    cm = new SqlCommand("delete from tblPosition where position like '" + cboPosition.Text + "'", _sqlConnection);
                     cm.ExecuteNonQuery();
-                    cn.Close();
+                    _sqlConnection.Close();
                     MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadExistingPostion();
                 }
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

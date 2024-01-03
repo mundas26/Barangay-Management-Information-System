@@ -14,7 +14,7 @@ namespace BMIS
 {
     public partial class frmPrintAllReports : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         public string _refno;
@@ -27,12 +27,12 @@ namespace BMIS
         public frmPrintAllReports()
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
         }
         public void GetKapitan()
         {
-            cn.Open();
-            cm = new SqlCommand("Select *from tblOfficial where position like 'KAPITAN'", cn);
+            _sqlConnection.Open();
+            cm = new SqlCommand("Select *from tblOfficial where position like 'KAPITAN'", _sqlConnection);
             dr = cm.ExecuteReader();
             dr.Read();
             if (dr.HasRows)
@@ -40,7 +40,7 @@ namespace BMIS
                 _captain = dr["name"].ToString();
             }
             dr.Close();
-            cn.Close();
+            _sqlConnection.Close();
         }
         public void GenerateBlotterReport(string sql)
         {
@@ -54,8 +54,8 @@ namespace BMIS
                 DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter();
 
-                cn.Open();
-                da.SelectCommand = new SqlCommand(sql, cn);
+                _sqlConnection.Open();
+                da.SelectCommand = new SqlCommand(sql, _sqlConnection);
                 da.Fill(ds.Tables["tblBlotter"]);
 
                 ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
@@ -66,11 +66,11 @@ namespace BMIS
                 reportViewer1.SetDisplayMode(Microsoft.Reporting.WinForms.DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -86,8 +86,8 @@ namespace BMIS
                 DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter();
 
-                cn.Open();
-                da.SelectCommand = new SqlCommand(sql, cn);
+                _sqlConnection.Open();
+                da.SelectCommand = new SqlCommand(sql, _sqlConnection);
                 da.Fill(ds.Tables["tblBusiness"]);
 
                 ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
@@ -98,11 +98,11 @@ namespace BMIS
                 reportViewer1.SetDisplayMode(Microsoft.Reporting.WinForms.DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -118,8 +118,8 @@ namespace BMIS
                 DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter();
 
-                cn.Open();
-                da.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", cn);
+                _sqlConnection.Open();
+                da.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", _sqlConnection);
                 da.Fill(ds.Tables["tblClearance"]);
                 
                 ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
@@ -145,11 +145,11 @@ namespace BMIS
                 reportViewer1.SetDisplayMode(Microsoft.Reporting.WinForms.DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -165,8 +165,8 @@ namespace BMIS
                 DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter();
 
-                cn.Open();
-                da.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", cn);
+                _sqlConnection.Open();
+                da.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", _sqlConnection);
                 da.Fill(ds.Tables["tblBuildingPermit"]);
 
                 ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
@@ -190,11 +190,11 @@ namespace BMIS
                 reportViewer1.SetDisplayMode(DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

@@ -14,7 +14,7 @@ namespace BMIS
 {
     public partial class Main : Form
     {
-        SqlConnection cn;
+        SqlConnection _sqlConnection;
         SqlCommand cm;
         SqlDataReader dr;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -25,7 +25,7 @@ namespace BMIS
         public Main(frmPrintBuildingPermit f1)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f1 = f1;
         }
         public readonly frmSecurity f;
@@ -34,7 +34,7 @@ namespace BMIS
         public Main(frmSecurity f)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f = f;
         }
         public readonly frmLoading f3;
@@ -43,7 +43,7 @@ namespace BMIS
         public Main(frmLoading f3)
         {
             InitializeComponent();
-            cn = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(DbString);
             this.f3 = f3;
         }
 
@@ -189,8 +189,8 @@ namespace BMIS
         {
             try
             {
-                cn.Open();
-                cm = new SqlCommand("SELECT idPic as Picture, *from tblOfficial where position like 'KAPITAN'", cn);
+                _sqlConnection.Open();
+                cm = new SqlCommand("SELECT idPic as Picture, *from tblOfficial where position like 'KAPITAN'", _sqlConnection);
                 dr = cm.ExecuteReader();
                 if (dr.Read())
                 {
@@ -199,11 +199,11 @@ namespace BMIS
                     picKapitan.Image = Image.FromFile(dr["idPic"].ToString());
                 }
                 dr.Close();
-                cn.Close();
+                _sqlConnection.Close();
             }
             catch (Exception ex)
             {
-                cn.Close();
+                _sqlConnection.Close();
                 MessageBox.Show(vars._title, ex.Message);
             }
         }
