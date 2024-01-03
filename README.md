@@ -14,8 +14,8 @@ BMIS is a comprehensive Barangay Management System designed to streamline and au
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/mundas26/BMIS.git`
-2. Navigate to the project directory: `cd BMIS`
+1. Clone the repository: `git clone https://github.com/mundas26/Barangay-Management-Information-System.git`
+2. Navigate to the project directory: `cd Barangay-Management-Information-System`
 3. Install dependencies: `npm install` (or `yarn install` if you're using Yarn)
 4. Set up the database and update configuration files accordingly.
 5. Run the application: `npm start` (or `yarn start`)
