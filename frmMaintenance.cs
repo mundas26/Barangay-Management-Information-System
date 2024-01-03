@@ -15,8 +15,8 @@ namespace BMIS
     public partial class frmMaintenance : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string _id;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public frmMaintenance()
@@ -39,14 +39,14 @@ namespace BMIS
             {
                 viewBrgy.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select * from tblOfficial", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select * from tblOfficial", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewBrgy.Rows.Add(dr["id"].ToString(), dr["name"].ToString(), dr["chairmanship"].ToString(),
-                    dr["position"].ToString(), DateTime.Parse(dr["termstart"].ToString()).ToShortDateString(), DateTime.Parse(dr["termend"].ToString()).ToShortDateString(), dr["status"].ToString());
+                    viewBrgy.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["name"].ToString(), _sqlDataReader["chairmanship"].ToString(),
+                    _sqlDataReader["position"].ToString(), DateTime.Parse(_sqlDataReader["termstart"].ToString()).ToShortDateString(), DateTime.Parse(_sqlDataReader["termend"].ToString()).ToShortDateString(), _sqlDataReader["status"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewBrgy.ClearSelection();
             }
@@ -63,13 +63,13 @@ namespace BMIS
             {
                 viewPurok.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblPurok", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblPurok", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewPurok.Rows.Add(dr["purok"].ToString(), dr["chairman"].ToString());
+                    viewPurok.Rows.Add(_sqlDataReader["purok"].ToString(), _sqlDataReader["chairman"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewPurok.ClearSelection();
             }
@@ -109,8 +109,8 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("delete  from tblPurok where purok like '" + viewPurok.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("delete  from tblPurok where purok like '" + viewPurok.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPurok();
@@ -137,20 +137,20 @@ namespace BMIS
                     f.cboChairmanship.Enabled = false;
                     f.cboPosition.Enabled = false;
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Select photopost as Pictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                    dr = cm.ExecuteReader();
-                    dr.Read();
-                    if (dr.HasRows)
+                    _sqlCommand = new SqlCommand("Select photopost as Pictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                    _sqlDataReader = _sqlCommand.ExecuteReader();
+                    _sqlDataReader.Read();
+                    if (_sqlDataReader.HasRows)
                     {
-                        f._id = dr["id"].ToString();
-                        f.txtName.Text = dr["name"].ToString();
-                        f.cboChairmanship.Text = dr["chairmanship"].ToString();
-                        f.cboPosition.Text = dr["position"].ToString();
-                        f.dtStart.Value = DateTime.Parse(dr["termstart"].ToString());
-                        f.dtEnd.Value = DateTime.Parse(dr["termend"].ToString());
-                        f.cboStatus.Text = dr["status"].ToString();
+                        f._id = _sqlDataReader["id"].ToString();
+                        f.txtName.Text = _sqlDataReader["name"].ToString();
+                        f.cboChairmanship.Text = _sqlDataReader["chairmanship"].ToString();
+                        f.cboPosition.Text = _sqlDataReader["position"].ToString();
+                        f.dtStart.Value = DateTime.Parse(_sqlDataReader["termstart"].ToString());
+                        f.dtEnd.Value = DateTime.Parse(_sqlDataReader["termend"].ToString());
+                        f.cboStatus.Text = _sqlDataReader["status"].ToString();
 
-                        string imagePath = dr["photopost"].ToString();
+                        string imagePath = _sqlDataReader["photopost"].ToString();
                         if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
                         {
                             Image image = Image.FromFile(imagePath);
@@ -166,7 +166,7 @@ namespace BMIS
                             }
                         }
                     }
-                    dr.Close();
+                    _sqlDataReader.Close();
                     _sqlConnection.Close();
                     f.ShowDialog();
                 }
@@ -175,40 +175,40 @@ namespace BMIS
                     string imagePath;
                     string imagePath2;
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Select photopost as OfficialPost, idPic as idPictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                    dr = cm.ExecuteReader();
-                    dr.Read();
-                    if (dr.HasRows)
+                    _sqlCommand = new SqlCommand("Select photopost as OfficialPost, idPic as idPictures, *from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                    _sqlDataReader = _sqlCommand.ExecuteReader();
+                    _sqlDataReader.Read();
+                    if (_sqlDataReader.HasRows)
                     {
-                        imagePath = dr["photopost"].ToString();
+                        imagePath = _sqlDataReader["photopost"].ToString();
                         if (File.Exists(imagePath))
                         {
                             File.Delete(imagePath);
                         }
-                        imagePath2 = dr["idPic"].ToString();
+                        imagePath2 = _sqlDataReader["idPic"].ToString();
                         if (File.Exists(imagePath2))
                         {
                             File.Delete(imagePath2);
                         }
                     }
-                    dr.Close();
+                    _sqlDataReader.Close();
                     _sqlConnection.Close();
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         frmOfficial f = new frmOfficial(this);
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Update tblChairmanship set status= 'InActive' where role like '"+viewBrgy.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",_sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Update tblChairmanship set status= 'InActive' where role like '"+viewBrgy.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",_sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
 
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Update tblPosition set status= 'InActive' where position like '" + viewBrgy.Rows[e.RowIndex].Cells[3].Value.ToString() + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Update tblPosition set status= 'InActive' where position like '" + viewBrgy.Rows[e.RowIndex].Cells[3].Value.ToString() + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
 
                         _sqlConnection.Open();
-                        cm = new SqlCommand("delete from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("delete from tblOfficial where id like '" + viewBrgy.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadRecordOfficial();
@@ -237,13 +237,13 @@ namespace BMIS
             {
                 viewAccount.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblOfficial where accountStatus like 'Completed'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblOfficial where accountStatus like 'Completed'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewAccount.Rows.Add(dr["id"].ToString(), dr["name"].ToString(), dr["position"].ToString());
+                    viewAccount.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["name"].ToString(), _sqlDataReader["position"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewAccount.ClearSelection();
             }
@@ -266,19 +266,19 @@ namespace BMIS
                     f.cboPosition.Enabled = false;
                     f.txtName.Enabled = false;
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Select *from tblOfficial where id like '"+viewAccount.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", _sqlConnection);
-                    dr = cm.ExecuteReader();
-                    dr.Read();
-                    if (dr.HasRows)
+                    _sqlCommand = new SqlCommand("Select *from tblOfficial where id like '"+viewAccount.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", _sqlConnection);
+                    _sqlDataReader = _sqlCommand.ExecuteReader();
+                    _sqlDataReader.Read();
+                    if (_sqlDataReader.HasRows)
                     {
-                        f._id = dr["id"].ToString();
-                        f.txtName.Text = dr["name"].ToString();
-                        f.cboPosition.Text = dr["position"].ToString();
-                        f.txtUser.Text = dr["username"].ToString();
-                        f.txtPass.Text = dr["password"].ToString();
-                        f.txtConfirmPass.Text = dr["password"].ToString();
+                        f._id = _sqlDataReader["id"].ToString();
+                        f.txtName.Text = _sqlDataReader["name"].ToString();
+                        f.cboPosition.Text = _sqlDataReader["position"].ToString();
+                        f.txtUser.Text = _sqlDataReader["username"].ToString();
+                        f.txtPass.Text = _sqlDataReader["password"].ToString();
+                        f.txtConfirmPass.Text = _sqlDataReader["password"].ToString();
 
-                        string imagePath = dr["idPic"].ToString();
+                        string imagePath = _sqlDataReader["idPic"].ToString();
                         if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
                         {
                             Image image = Image.FromFile(imagePath);
@@ -294,7 +294,7 @@ namespace BMIS
                     }
                     f.btnSave.Enabled = false;
                     _sqlConnection.Close();
-                    dr.Close();
+                    _sqlDataReader.Close();
                     f.ShowDialog();
                 }
                 else if (colname == "btnDelAccount")
@@ -303,13 +303,13 @@ namespace BMIS
                     {
                         string selectedRow = viewAccount.Rows[e.RowIndex].Cells[0].Value.ToString();
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Update tblOfficial set accountStatus= 'Incomplete' where position like '"+viewAccount.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",_sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Update tblOfficial set accountStatus= 'Incomplete' where position like '"+viewAccount.Rows[e.RowIndex].Cells[2].Value.ToString()+"'",_sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
 
                         _sqlConnection.Open();
-                        cm = new SqlCommand("delete  from tblUser where id like '" + selectedRow + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("delete  from tblUser where id like '" + selectedRow + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadRecordAccount();
@@ -328,13 +328,13 @@ namespace BMIS
             {
                 viewExistingPosition.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblPosition",_sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblPosition",_sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewExistingPosition.Rows.Add(dr["id"].ToString(), dr["position"].ToString(), dr["status"].ToString());
+                    viewExistingPosition.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["position"].ToString(), _sqlDataReader["status"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewExistingPosition.ClearSelection();
             }
@@ -350,13 +350,13 @@ namespace BMIS
             {
                 viewExistingChairmanship.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblChairmanship", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblChairmanship", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewExistingChairmanship.Rows.Add(dr["id"].ToString(), dr["role"].ToString(), dr["status"].ToString());
+                    viewExistingChairmanship.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["role"].ToString(), _sqlDataReader["status"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewExistingChairmanship.ClearSelection();
             }
@@ -384,8 +384,8 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("delete from tblPosition where id like '" + viewExistingPosition.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("delete from tblPosition where id like '" + viewExistingPosition.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadExistingPositionIntoDataview();
@@ -417,8 +417,8 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("delete from tblChairmanship where id like '" + viewExistingChairmanship.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("delete from tblChairmanship where id like '" + viewExistingChairmanship.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadExistingChairmanshipIntoDataview();

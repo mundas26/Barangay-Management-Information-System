@@ -14,8 +14,8 @@ namespace BMIS
     public partial class frmAddChairmanship : Form
     {
         SqlConnection _sqlConnection;
-        SqlDataReader dr;
-        SqlCommand cm;
+        SqlDataReader _sqlDataReader;
+        SqlCommand _sqlCommand;
         frmMaintenance f;
         frmOfficial f1;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -42,15 +42,15 @@ namespace BMIS
             try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblChairmanship where role like '"+cboChairmanship.Text+"'",_sqlConnection);
-                dr = cm.ExecuteReader();
-                dr.Read();
-                if (dr.HasRows)
+                _sqlCommand = new SqlCommand("Select *from tblChairmanship where role like '"+cboChairmanship.Text+"'",_sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                _sqlDataReader.Read();
+                if (_sqlDataReader.HasRows)
                 {
-                    txtAddChairmanship.Text = dr["role"].ToString();
+                    txtAddChairmanship.Text = _sqlDataReader["role"].ToString();
                     btnAdd.Text = "UPDATE";
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)
@@ -64,13 +64,13 @@ namespace BMIS
             try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select role from tblChairmanship", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select role from tblChairmanship", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    cboChairmanship.Items.Add(dr["role"].ToString());
+                    cboChairmanship.Items.Add(_sqlDataReader["role"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)
@@ -89,10 +89,10 @@ namespace BMIS
                     if (Check.checkDuplicate("Select count(*)from tblChairmanship where role like '"+txtAddChairmanship.Text+"'")==true)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Update tblChairmanship set role=@role, status=@status where role like '"+txtAddChairmanship.Text+"'",_sqlConnection);
-                        cm.Parameters.AddWithValue("@role",txtAddChairmanship.Text);
-                        cm.Parameters.AddWithValue("@status", "InActive");
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Update tblChairmanship set role=@role, status=@status where role like '"+txtAddChairmanship.Text+"'",_sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@role",txtAddChairmanship.Text);
+                        _sqlCommand.Parameters.AddWithValue("@status", "InActive");
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully updated",vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtAddChairmanship.Clear();
@@ -103,10 +103,10 @@ namespace BMIS
                     else
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Insert into tblChairmanship (role, status) values (@role, @status)", _sqlConnection);
-                        cm.Parameters.AddWithValue("@role", txtAddChairmanship.Text);
-                        cm.Parameters.AddWithValue("@status", "InActive");
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Insert into tblChairmanship (role, status) values (@role, @status)", _sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@role", txtAddChairmanship.Text);
+                        _sqlCommand.Parameters.AddWithValue("@status", "InActive");
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully saved", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtAddChairmanship.Clear();

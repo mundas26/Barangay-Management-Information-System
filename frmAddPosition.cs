@@ -14,8 +14,8 @@ namespace BMIS
     public partial class frmAddPosition : Form
     {
         SqlConnection _sqlConnection;
-        SqlDataReader dr;
-        SqlCommand cm;
+        SqlDataReader _sqlDataReader;
+        SqlCommand _sqlCommand;
         frmMaintenance f1;
         frmOfficial f;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -42,13 +42,13 @@ namespace BMIS
             try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select position from tblPosition", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select position from tblPosition", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    cboPosition.Items.Add(dr["position"].ToString());
+                    cboPosition.Items.Add(_sqlDataReader["position"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)
@@ -69,10 +69,10 @@ namespace BMIS
                     if (Check.checkDuplicate("Select count(*)from tblPosition where position like '" + txtAddPosition.Text + "'") == true)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Update tblPosition set position = @position, status = @status where position like '"+txtAddPosition.Text+"'", _sqlConnection);
-                        cm.Parameters.AddWithValue("@position", txtAddPosition.Text);
-                        cm.Parameters.AddWithValue("@status", "InActive");
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Update tblPosition set position = @position, status = @status where position like '"+txtAddPosition.Text+"'", _sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@position", txtAddPosition.Text);
+                        _sqlCommand.Parameters.AddWithValue("@status", "InActive");
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtAddPosition.Text = "";
@@ -83,10 +83,10 @@ namespace BMIS
                     else
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Insert into tblPosition (position, status) values (@position, @status)", _sqlConnection);
-                        cm.Parameters.AddWithValue("@position", txtAddPosition.Text);
-                        cm.Parameters.AddWithValue("@status", "InActive");
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Insert into tblPosition (position, status) values (@position, @status)", _sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@position", txtAddPosition.Text);
+                        _sqlCommand.Parameters.AddWithValue("@status", "InActive");
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtAddPosition.Clear();
@@ -112,15 +112,15 @@ namespace BMIS
             try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblPosition where position like '" + cboPosition.Text + "'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                dr.Read();
-                if (dr.HasRows)
+                _sqlCommand = new SqlCommand("Select *from tblPosition where position like '" + cboPosition.Text + "'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                _sqlDataReader.Read();
+                if (_sqlDataReader.HasRows)
                 {
-                    txtAddPosition.Text = dr["position"].ToString();
+                    txtAddPosition.Text = _sqlDataReader["position"].ToString();
                     btnAdd.Text = "UPDATE";
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)
@@ -137,8 +137,8 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     _sqlConnection.Open();
-                    cm = new SqlCommand("delete from tblPosition where position like '" + cboPosition.Text + "'", _sqlConnection);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("delete from tblPosition where position like '" + cboPosition.Text + "'", _sqlConnection);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadExistingPostion();

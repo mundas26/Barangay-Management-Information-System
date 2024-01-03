@@ -14,7 +14,7 @@ namespace BMIS
     public partial class frmPurok : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
+        SqlCommand _sqlCommand;
         frmMaintenance f;
         public string _purok;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -53,10 +53,10 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to save this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Insert into tblPurok(purok, chairman)values(@purok, @chairman)", _sqlConnection);
-                    cm.Parameters.AddWithValue("@purok", txtPurok.Text);
-                    cm.Parameters.AddWithValue("@chairman", txtChairman.Text);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("Insert into tblPurok(purok, chairman)values(@purok, @chairman)", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("@purok", txtPurok.Text);
+                    _sqlCommand.Parameters.AddWithValue("@chairman", txtChairman.Text);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     f.LoadPurok();
@@ -93,11 +93,11 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to update this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     _sqlConnection.Open();
-                    cm = new SqlCommand("update tblPurok set purok= @purok, chairman= @chairman where purok= @purok1", _sqlConnection);
-                    cm.Parameters.AddWithValue("@purok", txtPurok.Text);
-                    cm.Parameters.AddWithValue("@chairman", txtChairman.Text);
-                    cm.Parameters.AddWithValue("@purok1", _purok);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("update tblPurok set purok= @purok, chairman= @chairman where purok= @purok1", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("@purok", txtPurok.Text);
+                    _sqlCommand.Parameters.AddWithValue("@chairman", txtChairman.Text);
+                    _sqlCommand.Parameters.AddWithValue("@purok1", _purok);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();

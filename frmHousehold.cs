@@ -14,8 +14,8 @@ namespace BMIS
     public partial class frmHousehold : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         frmResidentInformation f;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
 
@@ -42,13 +42,13 @@ namespace BMIS
             {
                 viewHousehold.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblResident where (lname+ ',' +fname+ ' ' +mname) like '%" + txtsearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblResident where (lname+ ',' +fname+ ' ' +mname) like '%" + txtsearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewHousehold.Rows.Add(dr["id"].ToString(), dr["house"].ToString(), dr["lname"].ToString() + ", " + dr["fname"].ToString() + " " + dr["mname"].ToString(), dr["address"].ToString());
+                    viewHousehold.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["house"].ToString(), _sqlDataReader["lname"].ToString() + ", " + _sqlDataReader["fname"].ToString() + " " + _sqlDataReader["mname"].ToString(), _sqlDataReader["address"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewHousehold.ClearSelection();
                 lblRecordcount.Text = "Record count(" + viewHousehold.RowCount + ")";

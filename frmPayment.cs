@@ -14,7 +14,7 @@ namespace BMIS
     public partial class frmPayment : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
+        SqlCommand _sqlCommand;
         Random rnd;
         frmPaymentList f;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -62,14 +62,14 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to save this payment?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Insert into tblPayment (refno, name, type, amount, sdate, username) values(@refno, @name, @type, @amount, @sdate, @username)", _sqlConnection);
-                    cm.Parameters.AddWithValue("@refno", lblRefno.Text);
-                    cm.Parameters.AddWithValue("@name", txtname.Text);
-                    cm.Parameters.AddWithValue("@type", cboTypeofpayment.Text);
-                    cm.Parameters.AddWithValue("@amount", double.Parse(txtAmount.Text));
-                    cm.Parameters.AddWithValue("@sdate", DateTime.Now);
-                    cm.Parameters.AddWithValue("@username", vars.Users);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("Insert into tblPayment (refno, name, type, amount, sdate, username) values(@refno, @name, @type, @amount, @sdate, @username)", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("@refno", lblRefno.Text);
+                    _sqlCommand.Parameters.AddWithValue("@name", txtname.Text);
+                    _sqlCommand.Parameters.AddWithValue("@type", cboTypeofpayment.Text);
+                    _sqlCommand.Parameters.AddWithValue("@amount", double.Parse(txtAmount.Text));
+                    _sqlCommand.Parameters.AddWithValue("@sdate", DateTime.Now);
+                    _sqlCommand.Parameters.AddWithValue("@username", vars.Users);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();

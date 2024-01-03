@@ -14,8 +14,8 @@ namespace BMIS
     public partial class frmIssue : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
 
         [Obsolete]
@@ -61,8 +61,8 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("delete from tblBlotter where id like '" + viewBlotter.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("delete from tblBlotter where id like '" + viewBlotter.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         loadBlotter();
@@ -92,11 +92,11 @@ namespace BMIS
             {
                 viewBlotter.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblBlotter where complainant like '%" + txtSearchBlotter.Text + "%'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblBlotter where complainant like '%" + txtSearchBlotter.Text + "%'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewBlotter.Rows.Add(dr["id"].ToString(), dr["fileno"].ToString(), dr["barangay"].ToString(), dr["purok"].ToString(), dr["incident"].ToString(), dr["place"].ToString(), DateTime.Parse(dr["idate"].ToString()).ToShortDateString(), dr["itime"].ToString(), dr["complainant"].ToString(), dr["witness1"].ToString(), dr["witness2"].ToString(), dr["narrative"].ToString(), dr["status"].ToString());
+                    viewBlotter.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["fileno"].ToString(), _sqlDataReader["barangay"].ToString(), _sqlDataReader["purok"].ToString(), _sqlDataReader["incident"].ToString(), _sqlDataReader["place"].ToString(), DateTime.Parse(_sqlDataReader["idate"].ToString()).ToShortDateString(), _sqlDataReader["itime"].ToString(), _sqlDataReader["complainant"].ToString(), _sqlDataReader["witness1"].ToString(), _sqlDataReader["witness2"].ToString(), _sqlDataReader["narrative"].ToString(), _sqlDataReader["status"].ToString());
                 }
                 _sqlConnection.Close();
                 viewBlotter.ClearSelection();
@@ -115,8 +115,8 @@ namespace BMIS
         public string CountRecords(string sql)
         {
             _sqlConnection.Open();
-            cm = new SqlCommand(sql, _sqlConnection);
-            string _count = cm.ExecuteScalar().ToString();
+            _sqlCommand = new SqlCommand(sql, _sqlConnection);
+            string _count = _sqlCommand.ExecuteScalar().ToString();
             _sqlConnection.Close();
             return _count;
         }

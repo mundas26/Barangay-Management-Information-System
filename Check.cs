@@ -11,7 +11,7 @@ namespace BMIS
     public class Check
     {
         public static SqlConnection _sqlConnection;
-        public static SqlCommand cm;
+        public static SqlCommand _sqlCommand;
         public static string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public static bool checkDuplicate(string sql)
         {
@@ -20,8 +20,8 @@ namespace BMIS
             {
                 _sqlConnection = new SqlConnection(DbString);
                 _sqlConnection.Open();
-                cm = new SqlCommand(sql, _sqlConnection);
-                int count = (int)cm.ExecuteScalar();
+                _sqlCommand = new SqlCommand(sql, _sqlConnection);
+                int count = (int)_sqlCommand.ExecuteScalar();
                 _sqlConnection.Close();
 
                 if (count == 0)

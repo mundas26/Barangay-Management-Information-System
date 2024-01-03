@@ -14,9 +14,9 @@ namespace BMIS
     public partial class frmPrintClearance : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
+        SqlCommand _sqlCommand;
         frmDocument f;
-        SqlDataReader dr;
+        SqlDataReader _sqlDataReader;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public frmPrintClearance(frmDocument f)
         {
@@ -34,13 +34,13 @@ namespace BMIS
             {
                 cboRefNOForClearance.Items.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select refno from tblPayment where type like 'BARANGAY CLEARANCE' and status like 'Pending'order by id desc", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select refno from tblPayment where type like 'BARANGAY CLEARANCE' and status like 'Pending'order by id desc", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    cboRefNOForClearance.Items.Add(dr[0].ToString());
+                    cboRefNOForClearance.Items.Add(_sqlDataReader[0].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)
@@ -55,14 +55,14 @@ namespace BMIS
                 try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblPayment where refno like '" + cboRefNOForClearance.Text + "'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                dr.Read();
-                if (dr.HasRows)
+                _sqlCommand = new SqlCommand("Select *from tblPayment where refno like '" + cboRefNOForClearance.Text + "'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                _sqlDataReader.Read();
+                if (_sqlDataReader.HasRows)
                 {
-                    txtName.Text = dr["name"].ToString();
+                    txtName.Text = _sqlDataReader["name"].ToString();
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)
@@ -108,21 +108,21 @@ namespace BMIS
                     {
                         string user = vars.Users;
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Update tblPayment set status = 'Completed' where refno like '" + cboRefNOForClearance.Text + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Update tblPayment set status = 'Completed' where refno like '" + cboRefNOForClearance.Text + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
 
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Insert into tblDocument (refno, type, details1, details2, details3, details4, idate, [user]) values(@refno, @type, @details1, @details2, @details3, @details4, @idate, @user)", _sqlConnection);
-                        cm.Parameters.AddWithValue("@refno", cboRefNOForClearance.Text);
-                        cm.Parameters.AddWithValue("@type", "BARANGAY CLEARANCE");
-                        cm.Parameters.AddWithValue("@details1", txtName.Text);
-                        cm.Parameters.AddWithValue("@details2", txtAddress.Text);
-                        cm.Parameters.AddWithValue("@details3", txtPurpose.Text);
-                        cm.Parameters.AddWithValue("@details4", txtBC.Text);
-                        cm.Parameters.AddWithValue("@idate", DateTime.Now);
-                        cm.Parameters.AddWithValue("@user", user);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Insert into tblDocument (refno, type, details1, details2, details3, details4, idate, [user]) values(@refno, @type, @details1, @details2, @details3, @details4, @idate, @user)", _sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@refno", cboRefNOForClearance.Text);
+                        _sqlCommand.Parameters.AddWithValue("@type", "BARANGAY CLEARANCE");
+                        _sqlCommand.Parameters.AddWithValue("@details1", txtName.Text);
+                        _sqlCommand.Parameters.AddWithValue("@details2", txtAddress.Text);
+                        _sqlCommand.Parameters.AddWithValue("@details3", txtPurpose.Text);
+                        _sqlCommand.Parameters.AddWithValue("@details4", txtBC.Text);
+                        _sqlCommand.Parameters.AddWithValue("@idate", DateTime.Now);
+                        _sqlCommand.Parameters.AddWithValue("@user", user);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         f.loadBrgyClearance();

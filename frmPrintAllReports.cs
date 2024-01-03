@@ -15,8 +15,8 @@ namespace BMIS
     public partial class frmPrintAllReports : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string _refno;
         public string _captain;
         public string _Address;
@@ -32,14 +32,14 @@ namespace BMIS
         public void GetKapitan()
         {
             _sqlConnection.Open();
-            cm = new SqlCommand("Select *from tblOfficial where position like 'KAPITAN'", _sqlConnection);
-            dr = cm.ExecuteReader();
-            dr.Read();
-            if (dr.HasRows)
+            _sqlCommand = new SqlCommand("Select *from tblOfficial where position like 'KAPITAN'", _sqlConnection);
+            _sqlDataReader = _sqlCommand.ExecuteReader();
+            _sqlDataReader.Read();
+            if (_sqlDataReader.HasRows)
             {
-                _captain = dr["name"].ToString();
+                _captain = _sqlDataReader["name"].ToString();
             }
-            dr.Close();
+            _sqlDataReader.Close();
             _sqlConnection.Close();
         }
         public void GenerateBlotterReport(string sql)

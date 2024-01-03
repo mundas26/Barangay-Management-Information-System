@@ -14,7 +14,7 @@ namespace BMIS
     public partial class frmVaccination : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
+        SqlCommand _sqlCommand;
         frmResidentList f;
         public string _id;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -77,21 +77,21 @@ namespace BMIS
                         if (CheckDuplicate("Select count(*)from tblVaccine where rid like '" + _id + "'") == true)
                         {
                             _sqlConnection.Open();
-                            cm = new SqlCommand("Update tblvaccine set vaccine=@vaccine, status=@status where rid=@rid", _sqlConnection);
-                            cm.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
-                            cm.Parameters.AddWithValue("status", cboVaccinationlist.Text);
-                            cm.Parameters.AddWithValue("rid", _id);
-                            cm.ExecuteNonQuery();
+                            _sqlCommand = new SqlCommand("Update tblvaccine set vaccine=@vaccine, status=@status where rid=@rid", _sqlConnection);
+                            _sqlCommand.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
+                            _sqlCommand.Parameters.AddWithValue("status", cboVaccinationlist.Text);
+                            _sqlCommand.Parameters.AddWithValue("rid", _id);
+                            _sqlCommand.ExecuteNonQuery();
                             _sqlConnection.Close();
                         }
                         else
                         {
                             _sqlConnection.Open();
-                            cm = new SqlCommand("insert into tblvaccine (rid,vaccine,status) values (@rid,@vaccine,@status)", _sqlConnection);
-                            cm.Parameters.AddWithValue("rid", _id);
-                            cm.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
-                            cm.Parameters.AddWithValue("status", cboVaccinationlist.Text);
-                            cm.ExecuteNonQuery();
+                            _sqlCommand = new SqlCommand("insert into tblvaccine (rid,vaccine,status) values (@rid,@vaccine,@status)", _sqlConnection);
+                            _sqlCommand.Parameters.AddWithValue("rid", _id);
+                            _sqlCommand.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
+                            _sqlCommand.Parameters.AddWithValue("status", cboVaccinationlist.Text);
+                            _sqlCommand.ExecuteNonQuery();
                             _sqlConnection.Close();
                         }
                         MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -113,8 +113,8 @@ namespace BMIS
             try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand(sql, _sqlConnection);
-                int count = int.Parse(cm.ExecuteScalar().ToString());
+                _sqlCommand = new SqlCommand(sql, _sqlConnection);
+                int count = int.Parse(_sqlCommand.ExecuteScalar().ToString());
                 _sqlConnection.Close();
 
                 if (count == 0)

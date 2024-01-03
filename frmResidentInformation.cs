@@ -17,8 +17,8 @@ namespace BMIS
     public partial class frmResidentInformation : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         frmResidentList f;
         public string _id;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -81,33 +81,33 @@ namespace BMIS
                     byte[] arrImage = ms.GetBuffer();
 
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Insert into tblResident (nid, lname, fname, mname, alias, bdate, bplace, age, civilstatus, gender, religion, email, contact, voters, precint, purok, educational, occupation, address, category, house, head, disability, status, pic) values (@nid, @lname, @fname, @mname, @alias, @bdate, @bplace, @age, @civilstatus, @gender, @religion, @email, @contact, @voters, @precint, @purok, @educational, @occupation, @address, @category, @house, @head, @disability, @status, @pic)", _sqlConnection);
-                    cm.Parameters.AddWithValue("@nid", txtID.Text);
-                    cm.Parameters.AddWithValue("@lname", txtLname.Text);
-                    cm.Parameters.AddWithValue("@fname", txtFname.Text);
-                    cm.Parameters.AddWithValue("@mname", txtMname.Text);
-                    cm.Parameters.AddWithValue("@alias", txtAllias.Text);
-                    cm.Parameters.AddWithValue("@bdate", dtBdate.Value);
-                    cm.Parameters.AddWithValue("@bplace", txtBplace.Text);
-                    cm.Parameters.AddWithValue("@age", txtAge.Text);
-                    cm.Parameters.AddWithValue("@civilstatus", cboCivilstatus.Text);
-                    cm.Parameters.AddWithValue("@gender", cboGender.Text);
-                    cm.Parameters.AddWithValue("@religion", txtReligion.Text);
-                    cm.Parameters.AddWithValue("@email", txtEmail.Text);
-                    cm.Parameters.AddWithValue("@contact", txtContact.Text);
-                    cm.Parameters.AddWithValue("@voters", cboVoters.Text);
-                    cm.Parameters.AddWithValue("@precint", txtPrecint.Text);
-                    cm.Parameters.AddWithValue("@purok", cboPurok.Text);
-                    cm.Parameters.AddWithValue("@educational", txtEduc.Text);
-                    cm.Parameters.AddWithValue("@occupation", txtOccupation.Text);
-                    cm.Parameters.AddWithValue("@address", txtAddress.Text);
-                    cm.Parameters.AddWithValue("@category", cboCategory.Text);
-                    cm.Parameters.AddWithValue("@house", txtHouse.Text);
-                    cm.Parameters.AddWithValue("@head", txtHeadofthefamily.Text);
-                    cm.Parameters.AddWithValue("@disability", cboPersonwithAbility.Text);
-                    cm.Parameters.AddWithValue("@status", cboStatus.Text);
-                    cm.Parameters.AddWithValue("@pic", arrImage);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("Insert into tblResident (nid, lname, fname, mname, alias, bdate, bplace, age, civilstatus, gender, religion, email, contact, voters, precint, purok, educational, occupation, address, category, house, head, disability, status, pic) values (@nid, @lname, @fname, @mname, @alias, @bdate, @bplace, @age, @civilstatus, @gender, @religion, @email, @contact, @voters, @precint, @purok, @educational, @occupation, @address, @category, @house, @head, @disability, @status, @pic)", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("@nid", txtID.Text);
+                    _sqlCommand.Parameters.AddWithValue("@lname", txtLname.Text);
+                    _sqlCommand.Parameters.AddWithValue("@fname", txtFname.Text);
+                    _sqlCommand.Parameters.AddWithValue("@mname", txtMname.Text);
+                    _sqlCommand.Parameters.AddWithValue("@alias", txtAllias.Text);
+                    _sqlCommand.Parameters.AddWithValue("@bdate", dtBdate.Value);
+                    _sqlCommand.Parameters.AddWithValue("@bplace", txtBplace.Text);
+                    _sqlCommand.Parameters.AddWithValue("@age", txtAge.Text);
+                    _sqlCommand.Parameters.AddWithValue("@civilstatus", cboCivilstatus.Text);
+                    _sqlCommand.Parameters.AddWithValue("@gender", cboGender.Text);
+                    _sqlCommand.Parameters.AddWithValue("@religion", txtReligion.Text);
+                    _sqlCommand.Parameters.AddWithValue("@email", txtEmail.Text);
+                    _sqlCommand.Parameters.AddWithValue("@contact", txtContact.Text);
+                    _sqlCommand.Parameters.AddWithValue("@voters", cboVoters.Text);
+                    _sqlCommand.Parameters.AddWithValue("@precint", txtPrecint.Text);
+                    _sqlCommand.Parameters.AddWithValue("@purok", cboPurok.Text);
+                    _sqlCommand.Parameters.AddWithValue("@educational", txtEduc.Text);
+                    _sqlCommand.Parameters.AddWithValue("@occupation", txtOccupation.Text);
+                    _sqlCommand.Parameters.AddWithValue("@address", txtAddress.Text);
+                    _sqlCommand.Parameters.AddWithValue("@category", cboCategory.Text);
+                    _sqlCommand.Parameters.AddWithValue("@house", txtHouse.Text);
+                    _sqlCommand.Parameters.AddWithValue("@head", txtHeadofthefamily.Text);
+                    _sqlCommand.Parameters.AddWithValue("@disability", cboPersonwithAbility.Text);
+                    _sqlCommand.Parameters.AddWithValue("@status", cboStatus.Text);
+                    _sqlCommand.Parameters.AddWithValue("@pic", arrImage);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     f.loadrecordResident();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -170,34 +170,34 @@ namespace BMIS
                     byte[] arrImage = ms.GetBuffer();
 
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Update tblResident set nid=@nid, lname= @lname, fname= @fname, mname= @mname, alias= @alias, bdate= @bdate, bplace= @bplace, age= @age, civilstatus= @civilstatus, gender= @gender, religion= @religion, email= @email, contact= @contact, voters= @voters, precint= @precint, purok= @purok, educational= @educational, occupation= @occupation, address= @address, category= @category, house= @house, head= @head, disability= @disability, status= @status, pic= @pic where id= @id", _sqlConnection);
-                    cm.Parameters.AddWithValue("@nid", txtID.Text);
-                    cm.Parameters.AddWithValue("@lname", txtLname.Text);
-                    cm.Parameters.AddWithValue("@fname", txtFname.Text);
-                    cm.Parameters.AddWithValue("@mname", txtMname.Text);
-                    cm.Parameters.AddWithValue("@alias", txtAllias.Text);
-                    cm.Parameters.AddWithValue("@bdate", dtBdate.Value);
-                    cm.Parameters.AddWithValue("@bplace", txtBplace.Text);
-                    cm.Parameters.AddWithValue("@age", txtAge.Text);
-                    cm.Parameters.AddWithValue("@civilstatus", cboCivilstatus.Text);
-                    cm.Parameters.AddWithValue("@gender", cboGender.Text);
-                    cm.Parameters.AddWithValue("@religion", txtReligion.Text);
-                    cm.Parameters.AddWithValue("@email", txtEmail.Text);
-                    cm.Parameters.AddWithValue("@contact", txtContact.Text);
-                    cm.Parameters.AddWithValue("@voters", cboVoters.Text);
-                    cm.Parameters.AddWithValue("@precint", txtPrecint.Text);
-                    cm.Parameters.AddWithValue("@purok", cboPurok.Text);
-                    cm.Parameters.AddWithValue("@educational", txtEduc.Text);
-                    cm.Parameters.AddWithValue("@occupation", txtOccupation.Text);
-                    cm.Parameters.AddWithValue("@address", txtAddress.Text);
-                    cm.Parameters.AddWithValue("@category", cboCategory.Text);
-                    cm.Parameters.AddWithValue("@house", txtHouse.Text);
-                    cm.Parameters.AddWithValue("@head", txtHeadofthefamily.Text);
-                    cm.Parameters.AddWithValue("@disability", cboPersonwithAbility.Text);
-                    cm.Parameters.AddWithValue("@status", cboStatus.Text);
-                    cm.Parameters.AddWithValue("@pic", arrImage);
-                    cm.Parameters.AddWithValue("@id", _id);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("Update tblResident set nid=@nid, lname= @lname, fname= @fname, mname= @mname, alias= @alias, bdate= @bdate, bplace= @bplace, age= @age, civilstatus= @civilstatus, gender= @gender, religion= @religion, email= @email, contact= @contact, voters= @voters, precint= @precint, purok= @purok, educational= @educational, occupation= @occupation, address= @address, category= @category, house= @house, head= @head, disability= @disability, status= @status, pic= @pic where id= @id", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("@nid", txtID.Text);
+                    _sqlCommand.Parameters.AddWithValue("@lname", txtLname.Text);
+                    _sqlCommand.Parameters.AddWithValue("@fname", txtFname.Text);
+                    _sqlCommand.Parameters.AddWithValue("@mname", txtMname.Text);
+                    _sqlCommand.Parameters.AddWithValue("@alias", txtAllias.Text);
+                    _sqlCommand.Parameters.AddWithValue("@bdate", dtBdate.Value);
+                    _sqlCommand.Parameters.AddWithValue("@bplace", txtBplace.Text);
+                    _sqlCommand.Parameters.AddWithValue("@age", txtAge.Text);
+                    _sqlCommand.Parameters.AddWithValue("@civilstatus", cboCivilstatus.Text);
+                    _sqlCommand.Parameters.AddWithValue("@gender", cboGender.Text);
+                    _sqlCommand.Parameters.AddWithValue("@religion", txtReligion.Text);
+                    _sqlCommand.Parameters.AddWithValue("@email", txtEmail.Text);
+                    _sqlCommand.Parameters.AddWithValue("@contact", txtContact.Text);
+                    _sqlCommand.Parameters.AddWithValue("@voters", cboVoters.Text);
+                    _sqlCommand.Parameters.AddWithValue("@precint", txtPrecint.Text);
+                    _sqlCommand.Parameters.AddWithValue("@purok", cboPurok.Text);
+                    _sqlCommand.Parameters.AddWithValue("@educational", txtEduc.Text);
+                    _sqlCommand.Parameters.AddWithValue("@occupation", txtOccupation.Text);
+                    _sqlCommand.Parameters.AddWithValue("@address", txtAddress.Text);
+                    _sqlCommand.Parameters.AddWithValue("@category", cboCategory.Text);
+                    _sqlCommand.Parameters.AddWithValue("@house", txtHouse.Text);
+                    _sqlCommand.Parameters.AddWithValue("@head", txtHeadofthefamily.Text);
+                    _sqlCommand.Parameters.AddWithValue("@disability", cboPersonwithAbility.Text);
+                    _sqlCommand.Parameters.AddWithValue("@status", cboStatus.Text);
+                    _sqlCommand.Parameters.AddWithValue("@pic", arrImage);
+                    _sqlCommand.Parameters.AddWithValue("@id", _id);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully Updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
@@ -246,13 +246,13 @@ namespace BMIS
             {
                 cboPurok.Items.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblPurok", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblPurok", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    cboPurok.Items.Add(dr["purok"].ToString());
+                    cboPurok.Items.Add(_sqlDataReader["purok"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)

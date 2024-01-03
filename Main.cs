@@ -15,8 +15,8 @@ namespace BMIS
     public partial class Main : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public readonly frmPrintBuildingPermit f1;
         public string _username = "", _password = "", _name = "", _role = "", _pic;
@@ -190,15 +190,15 @@ namespace BMIS
             try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand("SELECT idPic as Picture, *from tblOfficial where position like 'KAPITAN'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                if (dr.Read())
+                _sqlCommand = new SqlCommand("SELECT idPic as Picture, *from tblOfficial where position like 'KAPITAN'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                if (_sqlDataReader.Read())
                 {
-                    lblPositionKapitan.Text = dr["position"].ToString();
-                    lblKapitanName.Text = dr["name"].ToString();
-                    picKapitan.Image = Image.FromFile(dr["idPic"].ToString());
+                    lblPositionKapitan.Text = _sqlDataReader["position"].ToString();
+                    lblKapitanName.Text = _sqlDataReader["name"].ToString();
+                    picKapitan.Image = Image.FromFile(_sqlDataReader["idPic"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)

@@ -15,8 +15,8 @@ namespace BMIS
     public partial class frmResidentList : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
 
         [Obsolete]
@@ -56,47 +56,47 @@ namespace BMIS
                     frmResidentInformation f = new frmResidentInformation(this);
                     f.LoadPurok();
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Select pic as picture, *from tblResident where id like '"+viewResident.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", _sqlConnection);
-                    dr = cm.ExecuteReader();
-                    dr.Read();
-                    if (dr.HasRows)
+                    _sqlCommand = new SqlCommand("Select pic as picture, *from tblResident where id like '"+viewResident.Rows[e.RowIndex].Cells[0].Value.ToString()+"'", _sqlConnection);
+                    _sqlDataReader = _sqlCommand.ExecuteReader();
+                    _sqlDataReader.Read();
+                    if (_sqlDataReader.HasRows)
                     {
-                        long len = dr.GetBytes(0, 0, null, 0, 0);
+                        long len = _sqlDataReader.GetBytes(0, 0, null, 0, 0);
                         byte[] array = new byte[System.Convert.ToInt32(len) + 1];
-                        dr.GetBytes(0, 0, array, 0, System.Convert.ToInt32(len));
+                        _sqlDataReader.GetBytes(0, 0, array, 0, System.Convert.ToInt32(len));
 
-                        f._id = dr["id"].ToString();    
-                        f.txtID.Text = dr["nid"].ToString();
-                        f.txtLname.Text = dr["lname"].ToString();
-                        f.txtFname.Text = dr["fname"].ToString();
-                        f.txtMname.Text = dr["mname"].ToString();
-                        f.txtAllias.Text = dr["alias"].ToString();
-                        f.dtBdate.Value = DateTime.Parse(dr["bdate"].ToString());
-                        f.txtBplace.Text = dr["bplace"].ToString();
-                        f.txtAge.Text = dr["age"].ToString();
-                        f.cboCivilstatus.Text = dr["civilstatus"].ToString();
-                        f.cboGender.Text = dr["gender"].ToString();
-                        f.txtReligion.Text = dr["religion"].ToString();
-                        f.txtEmail.Text = dr["email"].ToString();
-                        f.txtContact.Text = dr["contact"].ToString();
-                        f.cboVoters.Text = dr["voters"].ToString();
-                        f.txtPrecint.Text = dr["precint"].ToString();
-                        f.cboPurok.Text = dr["purok"].ToString();
-                        f.txtEduc.Text = dr["educational"].ToString();
-                        f.txtOccupation.Text = dr["occupation"].ToString();
-                        f.txtAddress.Text = dr["address"].ToString();
-                        f.cboCategory.Text = dr["category"].ToString();
-                        f.txtHouse.Text = dr["house"].ToString();
-                        f.txtHeadofthefamily.Text = dr["head"].ToString();
-                        f.cboPersonwithAbility.Text = dr["disability"].ToString();
-                        f.cboStatus.Text = dr["status"].ToString();
+                        f._id = _sqlDataReader["id"].ToString();    
+                        f.txtID.Text = _sqlDataReader["nid"].ToString();
+                        f.txtLname.Text = _sqlDataReader["lname"].ToString();
+                        f.txtFname.Text = _sqlDataReader["fname"].ToString();
+                        f.txtMname.Text = _sqlDataReader["mname"].ToString();
+                        f.txtAllias.Text = _sqlDataReader["alias"].ToString();
+                        f.dtBdate.Value = DateTime.Parse(_sqlDataReader["bdate"].ToString());
+                        f.txtBplace.Text = _sqlDataReader["bplace"].ToString();
+                        f.txtAge.Text = _sqlDataReader["age"].ToString();
+                        f.cboCivilstatus.Text = _sqlDataReader["civilstatus"].ToString();
+                        f.cboGender.Text = _sqlDataReader["gender"].ToString();
+                        f.txtReligion.Text = _sqlDataReader["religion"].ToString();
+                        f.txtEmail.Text = _sqlDataReader["email"].ToString();
+                        f.txtContact.Text = _sqlDataReader["contact"].ToString();
+                        f.cboVoters.Text = _sqlDataReader["voters"].ToString();
+                        f.txtPrecint.Text = _sqlDataReader["precint"].ToString();
+                        f.cboPurok.Text = _sqlDataReader["purok"].ToString();
+                        f.txtEduc.Text = _sqlDataReader["educational"].ToString();
+                        f.txtOccupation.Text = _sqlDataReader["occupation"].ToString();
+                        f.txtAddress.Text = _sqlDataReader["address"].ToString();
+                        f.cboCategory.Text = _sqlDataReader["category"].ToString();
+                        f.txtHouse.Text = _sqlDataReader["house"].ToString();
+                        f.txtHeadofthefamily.Text = _sqlDataReader["head"].ToString();
+                        f.cboPersonwithAbility.Text = _sqlDataReader["disability"].ToString();
+                        f.cboStatus.Text = _sqlDataReader["status"].ToString();
 
                         MemoryStream ms = new MemoryStream(array);
                         Bitmap bitmap = new Bitmap(ms);
                         f.picImage.BackgroundImage = bitmap;
                     }
                     f.btnSave.Enabled = false;
-                    dr.Close();
+                    _sqlDataReader.Close();
                     _sqlConnection.Close();
                     f.ShowDialog();
                 }
@@ -105,8 +105,8 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete is record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("delete from tblResident where id like '" + viewResident.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("delete from tblResident where id like '" + viewResident.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", _sqlConnection);
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("Record  has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         loadrecordResident();
@@ -125,13 +125,13 @@ namespace BMIS
             {
                 viewResident.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblResident where lname like '%" + txtSearchresidentlist.Text + "%' or fname like '%" + txtSearchresidentlist.Text + "%'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblResident where lname like '%" + txtSearchresidentlist.Text + "%' or fname like '%" + txtSearchresidentlist.Text + "%'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewResident.Rows.Add(dr["id"].ToString(), dr["nid"].ToString(), dr["lname"].ToString(), dr["fname"].ToString(), dr["mname"].ToString(), dr["alias"].ToString(), dr["address"].ToString(), dr["house"].ToString(), dr["category"].ToString(), DateTime.Parse(dr["bdate"].ToString()).ToShortDateString(), dr["age"].ToString(), dr["gender"].ToString(), dr["civilstatus"].ToString());
+                    viewResident.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["nid"].ToString(), _sqlDataReader["lname"].ToString(), _sqlDataReader["fname"].ToString(), _sqlDataReader["mname"].ToString(), _sqlDataReader["alias"].ToString(), _sqlDataReader["address"].ToString(), _sqlDataReader["house"].ToString(), _sqlDataReader["category"].ToString(), DateTime.Parse(_sqlDataReader["bdate"].ToString()).ToShortDateString(), _sqlDataReader["age"].ToString(), _sqlDataReader["gender"].ToString(), _sqlDataReader["civilstatus"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewResident.ClearSelection();
                 lblTotalPopulation.Text = CountRecords("Select count(*) from tblResident");
@@ -151,8 +151,8 @@ namespace BMIS
         public string CountRecords(string sql)
         {
             _sqlConnection.Open();
-            cm = new SqlCommand(sql, _sqlConnection);
-            string _count = cm.ExecuteScalar().ToString();
+            _sqlCommand = new SqlCommand(sql, _sqlConnection);
+            string _count = _sqlCommand.ExecuteScalar().ToString();
             _sqlConnection.Close();
             return _count;
         }
@@ -162,13 +162,13 @@ namespace BMIS
             {
                 _sqlConnection.Open();
                 viewVaccination.Rows.Clear();
-                cm = new SqlCommand("Select *from vwvaccination where (lname like '%" + txtSearch.Text + "%' or fname like '%" + txtSearch.Text + "%') and status like '" + cboStatus.Text + "'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from vwvaccination where (lname like '%" + txtSearch.Text + "%' or fname like '%" + txtSearch.Text + "%') and status like '" + cboStatus.Text + "'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewVaccination.Rows.Add(dr["id"].ToString(), dr["lname"].ToString(), dr["fname"].ToString(), dr["mname"].ToString(), dr["vaccine"].ToString(), dr["status"].ToString());
+                    viewVaccination.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["lname"].ToString(), _sqlDataReader["fname"].ToString(), _sqlDataReader["mname"].ToString(), _sqlDataReader["vaccine"].ToString(), _sqlDataReader["status"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewVaccination.ClearSelection();
             }
@@ -184,13 +184,13 @@ namespace BMIS
             {
                 viewHousehold.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblResident where (lname+','+fname+''+mname) like'%" + txtSearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblResident where (lname+','+fname+''+mname) like'%" + txtSearchHousehold.Text + "%' and category like 'HEAD OF THE FAMILY'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewHousehold.Rows.Add(dr["id"].ToString(), dr["nid"].ToString(), dr["lname"].ToString(), dr["fname"].ToString(), dr["mname"].ToString(), dr["alias"].ToString(), dr["address"].ToString(), dr["house"].ToString(), dr["category"].ToString(), DateTime.Parse(dr["bdate"].ToString()).ToShortDateString(), dr["age"].ToString(), dr["gender"].ToString(), dr["civilstatus"].ToString());
+                    viewHousehold.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["nid"].ToString(), _sqlDataReader["lname"].ToString(), _sqlDataReader["fname"].ToString(), _sqlDataReader["mname"].ToString(), _sqlDataReader["alias"].ToString(), _sqlDataReader["address"].ToString(), _sqlDataReader["house"].ToString(), _sqlDataReader["category"].ToString(), DateTime.Parse(_sqlDataReader["bdate"].ToString()).ToShortDateString(), _sqlDataReader["age"].ToString(), _sqlDataReader["gender"].ToString(), _sqlDataReader["civilstatus"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewHousehold.ClearSelection();
             }
@@ -210,15 +210,15 @@ namespace BMIS
                     string _id = viewHousehold.Rows[e.RowIndex].Cells[0].Value.ToString();
                     frmViewhousehold f = new frmViewhousehold(this);
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Select (lname+', '+fname+' '+mname) as fullname, house from tblResident where id =@id", _sqlConnection);
-                    cm.Parameters.AddWithValue("@id", _id);
-                    dr = cm.ExecuteReader();
-                    while (dr.Read())
+                    _sqlCommand = new SqlCommand("Select (lname+', '+fname+' '+mname) as fullname, house from tblResident where id =@id", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("@id", _id);
+                    _sqlDataReader = _sqlCommand.ExecuteReader();
+                    while (_sqlDataReader.Read())
                     {
-                        f.lblname.Text = dr["fullname"].ToString();
-                        f.lblHouseholdnumber.Text = dr["house"].ToString();
+                        f.lblname.Text = _sqlDataReader["fullname"].ToString();
+                        f.lblHouseholdnumber.Text = _sqlDataReader["house"].ToString();
                     }
-                    dr.Close();
+                    _sqlDataReader.Close();
                     _sqlConnection.Close();
                     f.loadViewhousehold();
                     f.ShowDialog();

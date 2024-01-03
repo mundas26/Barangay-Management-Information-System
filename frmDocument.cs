@@ -15,8 +15,8 @@ namespace BMIS
     public partial class frmDocument : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public frmDocument()
         {
@@ -35,13 +35,13 @@ namespace BMIS
             {
                 viewBusinessPermit.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblDocument where type like 'BUSINESS PERMIT' and idate = cast(getdate() as date)",_sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblDocument where type like 'BUSINESS PERMIT' and idate = cast(getdate() as date)",_sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewBusinessPermit.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["details1"].ToString(), dr["details2"].ToString(), dr["details3"].ToString(), DateTime.Parse(dr["idate"].ToString()).ToShortDateString(), dr["user"].ToString());
+                    viewBusinessPermit.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["refno"].ToString(), _sqlDataReader["details1"].ToString(), _sqlDataReader["details2"].ToString(), _sqlDataReader["details3"].ToString(), DateTime.Parse(_sqlDataReader["idate"].ToString()).ToShortDateString(), _sqlDataReader["user"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewBusinessPermit.ClearSelection();
             }
@@ -57,11 +57,11 @@ namespace BMIS
             {
                 viewBrgyClearance.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblDocument where type like 'BARANGAY CLEARANCE' and idate = cast(getdate() as date)", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblDocument where type like 'BARANGAY CLEARANCE' and idate = cast(getdate() as date)", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewBrgyClearance.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["details1"].ToString(), dr["details2"].ToString(), dr["details3"].ToString(), dr["details4"].ToString(), DateTime.Parse(dr["idate"].ToString()).ToShortDateString(), dr["user"].ToString());
+                    viewBrgyClearance.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["refno"].ToString(), _sqlDataReader["details1"].ToString(), _sqlDataReader["details2"].ToString(), _sqlDataReader["details3"].ToString(), _sqlDataReader["details4"].ToString(), DateTime.Parse(_sqlDataReader["idate"].ToString()).ToShortDateString(), _sqlDataReader["user"].ToString());
                 }
                 _sqlConnection.Close();
                 viewBrgyClearance.ClearSelection();
@@ -78,13 +78,13 @@ namespace BMIS
             {
                 viewBuildingPermit.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblDocument where type like 'BARANGAY BUILDING PERMIT' and idate = cast(getdate() as date)", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblDocument where type like 'BARANGAY BUILDING PERMIT' and idate = cast(getdate() as date)", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewBuildingPermit.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["details1"].ToString(), dr["details2"].ToString(), dr["details3"].ToString(), DateTime.Parse(dr["idate"].ToString()).ToShortDateString(), dr["user"].ToString());
+                    viewBuildingPermit.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["refno"].ToString(), _sqlDataReader["details1"].ToString(), _sqlDataReader["details2"].ToString(), _sqlDataReader["details3"].ToString(), DateTime.Parse(_sqlDataReader["idate"].ToString()).ToShortDateString(), _sqlDataReader["user"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewBuildingPermit.ClearSelection();
             }

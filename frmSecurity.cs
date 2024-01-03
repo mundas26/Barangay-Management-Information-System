@@ -15,8 +15,8 @@ namespace BMIS
     public partial class frmSecurity : Form
     {
         readonly SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string _username = "", _password = "", _name = "", _role = "", _pic; 
         int counter = 0;
         public string[] imagePaths;
@@ -80,25 +80,25 @@ namespace BMIS
                 bool Found = false;
                 _sqlConnection.Open();
 
-                cm = new SqlCommand("Select *from tblOfficial where username=@username and password=@password", _sqlConnection);
-                cm.Parameters.AddWithValue("@username", txtUser.Text);
-                cm.Parameters.AddWithValue("@password", txtPass.Text);
-                dr = cm.ExecuteReader();
-                if (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblOfficial where username=@username and password=@password", _sqlConnection);
+                _sqlCommand.Parameters.AddWithValue("@username", txtUser.Text);
+                _sqlCommand.Parameters.AddWithValue("@password", txtPass.Text);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                if (_sqlDataReader.Read())
                 {
                     Found = true;
                     slideshowRunning = false;
-                    _username = dr["username"].ToString();
-                    _role = dr["position"].ToString();
-                    _name = dr["name"].ToString();
-                    _pic = dr["idPic"].ToString();
+                    _username = _sqlDataReader["username"].ToString();
+                    _role = _sqlDataReader["position"].ToString();
+                    _name = _sqlDataReader["name"].ToString();
+                    _pic = _sqlDataReader["idPic"].ToString();
                 }
                 else
                 {
                     Found = false;
                 }
 
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
 
                 if (Found)

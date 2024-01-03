@@ -14,8 +14,8 @@ namespace BMIS
     public partial class frmViewhousehold : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         frmResidentList f;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public frmViewhousehold(frmResidentList f)
@@ -35,13 +35,13 @@ namespace BMIS
             {
                 _sqlConnection.Open();
                 viewHousehold.Rows.Clear();
-                cm = new SqlCommand("Select id, address,(lname+', '+fname+' '+mname) as fullname, bdate, age from tblResident where house like '2987' and category like 'MEMBER'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select id, address,(lname+', '+fname+' '+mname) as fullname, bdate, age from tblResident where house like '2987' and category like 'MEMBER'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    viewHousehold.Rows.Add(dr["id"].ToString(), dr["fullname"].ToString(), DateTime.Parse(dr["bdate"].ToString()).ToShortDateString(), dr["age"].ToString(), dr["address"].ToString());
+                    viewHousehold.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["fullname"].ToString(), DateTime.Parse(_sqlDataReader["bdate"].ToString()).ToShortDateString(), _sqlDataReader["age"].ToString(), _sqlDataReader["address"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
             }
             catch (Exception ex)

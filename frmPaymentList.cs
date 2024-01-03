@@ -14,8 +14,8 @@ namespace BMIS
     public partial class frmPaymentList : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
         public frmPaymentList()
         {
@@ -37,9 +37,9 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Delete from tblPayment where id =@id", _sqlConnection);
-                        cm.Parameters.AddWithValue("@id", viewPaymentlist.Rows[e.RowIndex].Cells[0].Value.ToString());
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Delete from tblPayment where id =@id", _sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@id", viewPaymentlist.Rows[e.RowIndex].Cells[0].Value.ToString());
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("The record has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPaymentTotalRecord();
@@ -59,14 +59,14 @@ namespace BMIS
                 double _amount = 0;
                 viewPaymentlist.Rows.Clear();
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select *from tblPayment where sdate between'"+dt1.Value.ToString("yyyy-MM-dd")+"' and '"+dt2.Value.ToString("yyyy-MM-dd")+"'", _sqlConnection);
-                dr = cm.ExecuteReader();
-                while (dr.Read())
+                _sqlCommand = new SqlCommand("Select *from tblPayment where sdate between'"+dt1.Value.ToString("yyyy-MM-dd")+"' and '"+dt2.Value.ToString("yyyy-MM-dd")+"'", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                while (_sqlDataReader.Read())
                 {
-                    _amount += double.Parse(dr["amount"].ToString());
-                    viewPaymentlist.Rows.Add(dr["id"].ToString(), dr["refno"].ToString(), dr["name"].ToString(), dr["type"].ToString(), dr["amount"].ToString(), DateTime.Parse(dr["sdate"].ToString()).ToString("MM-dd-yyyy"), dr["username"].ToString());
+                    _amount += double.Parse(_sqlDataReader["amount"].ToString());
+                    viewPaymentlist.Rows.Add(_sqlDataReader["id"].ToString(), _sqlDataReader["refno"].ToString(), _sqlDataReader["name"].ToString(), _sqlDataReader["type"].ToString(), _sqlDataReader["amount"].ToString(), DateTime.Parse(_sqlDataReader["sdate"].ToString()).ToString("MM-dd-yyyy"), _sqlDataReader["username"].ToString());
                 }
-                dr.Close();
+                _sqlDataReader.Close();
                 _sqlConnection.Close();
                 viewPaymentlist.ClearSelection();
                 lblTotalamount.Text = _amount.ToString("#,##0.00");
@@ -100,9 +100,9 @@ namespace BMIS
                     if (MessageBox.Show("Do you want to delete this record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         _sqlConnection.Open();
-                        cm = new SqlCommand("Delete from tblPayment where id =@id", _sqlConnection);
-                        cm.Parameters.AddWithValue("@id", viewPaymentlist.Rows[e.RowIndex].Cells[0].Value.ToString());
-                        cm.ExecuteNonQuery();
+                        _sqlCommand = new SqlCommand("Delete from tblPayment where id =@id", _sqlConnection);
+                        _sqlCommand.Parameters.AddWithValue("@id", viewPaymentlist.Rows[e.RowIndex].Cells[0].Value.ToString());
+                        _sqlCommand.ExecuteNonQuery();
                         _sqlConnection.Close();
                         MessageBox.Show("The record has been successfully deleted!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadPaymentTotalRecord();

@@ -14,8 +14,8 @@ namespace BMIS
     public partial class frmBlotter : Form
     {
         SqlConnection _sqlConnection;
-        SqlCommand cm;
-        SqlDataReader dr;
+        SqlCommand _sqlCommand;
+        SqlDataReader _sqlDataReader;
         frmIssue f;
         public string _id;
         public string DbString = @"Data Source = MUNDAS26\SQLEXPRESS; Initial Catalog = bmis; Integrated Security = True";
@@ -49,19 +49,19 @@ namespace BMIS
                 if (MessageBox.Show("Do you want to save this blotter?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     _sqlConnection.Open();
-                    cm = new SqlCommand("insert into tblBlotter (fileno,barangay, purok, incident, place, idate, itime, complainant, witness1, witness2, narrative) values (@fileno, @barangay, @purok, @incident, @place, @idate, @itime, @complainant, @witness1, @witness2, @narrative)", _sqlConnection);
-                    cm.Parameters.AddWithValue("@fileno", lblFileno.Text);
-                    cm.Parameters.AddWithValue("@barangay", txtBrgy.Text);
-                    cm.Parameters.AddWithValue("@purok", txtPurok.Text);
-                    cm.Parameters.AddWithValue("@incident", txtIncident.Text);
-                    cm.Parameters.AddWithValue("@place", txtPlaceofincident.Text);
-                    cm.Parameters.AddWithValue("@idate", DateTime.Parse(DtDate.Value.ToLongDateString()));
-                    cm.Parameters.AddWithValue("@itime", txtTime.Text);
-                    cm.Parameters.AddWithValue("@complainant", txtComplainant.Text);
-                    cm.Parameters.AddWithValue("@witness1", txtWitness1.Text);
-                    cm.Parameters.AddWithValue("@witness2", txtWitness2.Text);
-                    cm.Parameters.AddWithValue("@narrative", txtNarrative.Text);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("insert into tblBlotter (fileno,barangay, purok, incident, place, idate, itime, complainant, witness1, witness2, narrative) values (@fileno, @barangay, @purok, @incident, @place, @idate, @itime, @complainant, @witness1, @witness2, @narrative)", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("@fileno", lblFileno.Text);
+                    _sqlCommand.Parameters.AddWithValue("@barangay", txtBrgy.Text);
+                    _sqlCommand.Parameters.AddWithValue("@purok", txtPurok.Text);
+                    _sqlCommand.Parameters.AddWithValue("@incident", txtIncident.Text);
+                    _sqlCommand.Parameters.AddWithValue("@place", txtPlaceofincident.Text);
+                    _sqlCommand.Parameters.AddWithValue("@idate", DateTime.Parse(DtDate.Value.ToLongDateString()));
+                    _sqlCommand.Parameters.AddWithValue("@itime", txtTime.Text);
+                    _sqlCommand.Parameters.AddWithValue("@complainant", txtComplainant.Text);
+                    _sqlCommand.Parameters.AddWithValue("@witness1", txtWitness1.Text);
+                    _sqlCommand.Parameters.AddWithValue("@witness2", txtWitness2.Text);
+                    _sqlCommand.Parameters.AddWithValue("@narrative", txtNarrative.Text);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully saved!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
@@ -85,18 +85,18 @@ namespace BMIS
             try
             {
                 _sqlConnection.Open();
-                cm = new SqlCommand("Select  top 1 fileno from  tblBlotter  where fileno like '" + fileno + "%' order by id desc", _sqlConnection);
-                dr = cm.ExecuteReader();
-                dr.Read();
-                if (dr.HasRows)
+                _sqlCommand = new SqlCommand("Select  top 1 fileno from  tblBlotter  where fileno like '" + fileno + "%' order by id desc", _sqlConnection);
+                _sqlDataReader = _sqlCommand.ExecuteReader();
+                _sqlDataReader.Read();
+                if (_sqlDataReader.HasRows)
                 {
                     lblFileno.Text = GetFileNO();
-                    dr.Close();
+                    _sqlDataReader.Close();
                     _sqlConnection.Close();
                 }
                 else
                 {
-                    dr.Close();
+                    _sqlDataReader.Close();
                     _sqlConnection.Close();
                 }
             }
@@ -156,19 +156,19 @@ namespace BMIS
                 if (MessageBox.Show("Are you sure you want to update this Record?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     _sqlConnection.Open();
-                    cm = new SqlCommand("Update tblBlotter set barangay=@barangay, purok=@purok, incident=@incident, place=@place, idate=@idate, itime=@itime, complainant=@complainant, witness1=@witness1, witness2=@witness2, narrative=@narrative where id=@id", _sqlConnection);
-                    cm.Parameters.AddWithValue("barangay", txtBrgy.Text);
-                    cm.Parameters.AddWithValue("purok", txtBrgy.Text);
-                    cm.Parameters.AddWithValue("incident", txtIncident.Text);
-                    cm.Parameters.AddWithValue("place", txtPlaceofincident.Text);
-                    cm.Parameters.AddWithValue("idate", DtDate.Value);
-                    cm.Parameters.AddWithValue("itime", txtTime.Text);
-                    cm.Parameters.AddWithValue("complainant", txtComplainant.Text);
-                    cm.Parameters.AddWithValue("witness1", txtWitness1.Text);
-                    cm.Parameters.AddWithValue("witness2", txtWitness2.Text);
-                    cm.Parameters.AddWithValue("narrative", txtNarrative.Text);
-                    cm.Parameters.AddWithValue("id", _id);
-                    cm.ExecuteNonQuery();
+                    _sqlCommand = new SqlCommand("Update tblBlotter set barangay=@barangay, purok=@purok, incident=@incident, place=@place, idate=@idate, itime=@itime, complainant=@complainant, witness1=@witness1, witness2=@witness2, narrative=@narrative where id=@id", _sqlConnection);
+                    _sqlCommand.Parameters.AddWithValue("barangay", txtBrgy.Text);
+                    _sqlCommand.Parameters.AddWithValue("purok", txtBrgy.Text);
+                    _sqlCommand.Parameters.AddWithValue("incident", txtIncident.Text);
+                    _sqlCommand.Parameters.AddWithValue("place", txtPlaceofincident.Text);
+                    _sqlCommand.Parameters.AddWithValue("idate", DtDate.Value);
+                    _sqlCommand.Parameters.AddWithValue("itime", txtTime.Text);
+                    _sqlCommand.Parameters.AddWithValue("complainant", txtComplainant.Text);
+                    _sqlCommand.Parameters.AddWithValue("witness1", txtWitness1.Text);
+                    _sqlCommand.Parameters.AddWithValue("witness2", txtWitness2.Text);
+                    _sqlCommand.Parameters.AddWithValue("narrative", txtNarrative.Text);
+                    _sqlCommand.Parameters.AddWithValue("id", _id);
+                    _sqlCommand.ExecuteNonQuery();
                     _sqlConnection.Close();
                     MessageBox.Show("Record has been successfully Updated!", vars._title, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     f.loadBlotter();
