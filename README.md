@@ -24,6 +24,13 @@ BMIS is a comprehensive Barangay Management System designed to streamline and au
 
 - Update database configuration in `config/database.js`.
 - Set up environment variables for sensitive information.
+- 
+## Default Credentials
+
+To access the system initially, use the following default credentials:
+
+- **Username:** admin
+- **Password:** admin123
 
 ## Usage
 
