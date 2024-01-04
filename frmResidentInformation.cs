@@ -21,14 +21,14 @@ namespace BMIS
         SqlDataReader _sqlDataReader;
         frmResidentList f;
         public string _id;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
 
         [Obsolete]
         public frmResidentInformation(frmResidentList f)
         {
             InitializeComponent();
             this.f = f;
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             LoadPurok();
         }
 

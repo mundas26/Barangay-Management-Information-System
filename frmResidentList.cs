@@ -17,13 +17,13 @@ namespace BMIS
         SqlConnection _sqlConnection;
         SqlCommand _sqlCommand;
         SqlDataReader _sqlDataReader;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
 
         [Obsolete]
         public frmResidentList()
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
         }
 
         private void txtSearchresidentlist_TextChanged(object sender, EventArgs e)
@@ -162,7 +162,7 @@ namespace BMIS
             {
                 _sqlConnection.Open();
                 viewVaccination.Rows.Clear();
-                _sqlCommand = new SqlCommand("Select *from vwvaccination where (lname like '%" + txtSearch.Text + "%' or fname like '%" + txtSearch.Text + "%') and status like '" + cboStatus.Text + "'", _sqlConnection);
+                _sqlCommand = new SqlCommand("SELECT *FROM viewVaccine WHERE (lname like '%" + txtSearch.Text + "%' or fname like '%" + txtSearch.Text + "%') AND status like '" + cboStatus.Text + "'", _sqlConnection);
                 _sqlDataReader = _sqlCommand.ExecuteReader();
                 while (_sqlDataReader.Read())
                 {

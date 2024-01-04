@@ -14,12 +14,10 @@ namespace BMIS
         public string _id;
         public frmMaintenance f;
         public frmSecurity f1;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
-
         public frmAccount(frmMaintenance f)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f = f;
         }
 

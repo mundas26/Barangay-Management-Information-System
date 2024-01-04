@@ -17,13 +17,13 @@ namespace BMIS
         SqlCommand _sqlCommand;
         SqlDataReader _sqlDataReader;
         frmResidentInformation f;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
 
         [Obsolete]
         public frmHousehold(frmResidentInformation f)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f = f;
         }
 

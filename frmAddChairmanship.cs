@@ -18,12 +18,12 @@ namespace BMIS
         SqlCommand _sqlCommand;
         frmMaintenance f;
         frmOfficial f1;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
 
         public frmAddChairmanship(frmMaintenance f)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f = f;
         }
         public frmAddChairmanship(frmOfficial f)

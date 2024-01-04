@@ -16,13 +16,13 @@ namespace BMIS
         SqlConnection _sqlConnection;
         SqlCommand _sqlCommand;
         SqlDataReader _sqlDataReader;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
 
         [Obsolete]
         public frmIssue()
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
         }
 
         private void btnAddnewBlotter_Click(object sender, EventArgs e)

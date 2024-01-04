@@ -17,11 +17,11 @@ namespace BMIS
         SqlCommand _sqlCommand;
         frmResidentList f;
         public string _id;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
         public frmVaccination(frmResidentList f)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f = f;
         }
 
@@ -71,13 +71,13 @@ namespace BMIS
             {
                 if (MessageBox.Show("Do you want to save changes?", vars._title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (cboVaccinationlist.Text == "NOT YET VACCINATED")
+                    if (cboVaccinationlist.Text != null)
                     {
                         txtVaccinetype.Text = "N/A";
                         if (CheckDuplicate("Select count(*)from tblVaccine where rid like '" + _id + "'") == true)
                         {
                             _sqlConnection.Open();
-                            _sqlCommand = new SqlCommand("Update tblvaccine set vaccine=@vaccine, status=@status where rid=@rid", _sqlConnection);
+                            _sqlCommand = new SqlCommand("Update tblVaccine set vaccine=@vaccine, status=@status where rid=@rid", _sqlConnection);
                             _sqlCommand.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
                             _sqlCommand.Parameters.AddWithValue("status", cboVaccinationlist.Text);
                             _sqlCommand.Parameters.AddWithValue("rid", _id);
@@ -87,7 +87,7 @@ namespace BMIS
                         else
                         {
                             _sqlConnection.Open();
-                            _sqlCommand = new SqlCommand("insert into tblvaccine (rid,vaccine,status) values (@rid,@vaccine,@status)", _sqlConnection);
+                            _sqlCommand = new SqlCommand("insert into tblVaccine (rid,vaccine,status) values (@rid,@vaccine,@status)", _sqlConnection);
                             _sqlCommand.Parameters.AddWithValue("rid", _id);
                             _sqlCommand.Parameters.AddWithValue("vaccine", txtVaccinetype.Text);
                             _sqlCommand.Parameters.AddWithValue("status", cboVaccinationlist.Text);

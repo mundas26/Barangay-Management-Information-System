@@ -17,7 +17,7 @@ namespace BMIS
         SqlConnection _sqlConnection;
         SqlCommand _sqlCommand;
         SqlDataReader _sqlDataReader;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
         public readonly frmPrintBuildingPermit f1;
         public string _username = "", _password = "", _name = "", _role = "", _pic;
 
@@ -25,7 +25,7 @@ namespace BMIS
         public Main(frmPrintBuildingPermit f1)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f1 = f1;
         }
         public readonly frmSecurity f;
@@ -34,7 +34,7 @@ namespace BMIS
         public Main(frmSecurity f)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f = f;
         }
         public readonly frmLoading f3;
@@ -43,7 +43,7 @@ namespace BMIS
         public Main(frmLoading f3)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f3 = f3;
         }
 

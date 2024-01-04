@@ -51,7 +51,7 @@ namespace BMIS
             this.Name = "frmPrintAllReports";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PRINT REPORT";
-            //this.Load += new System.EventHandler(this.frmPrintAllReports_Load);
+            this.Load += new System.EventHandler(this.frmPrintAllReports_Load);
             this.ResumeLayout(false);
 
         }

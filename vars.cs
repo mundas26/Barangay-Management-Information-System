@@ -27,6 +27,8 @@ namespace BMIS
         public static string defaultImagePath = Application.StartupPath + @"\admin.jpg";
         public static Image _defaultImage = Image.FromFile(File.Exists(path) ? path : defaultImagePath);
 
+        public static string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+
         // Generates a random string of numbers with the specified length
         public static string GetRandomNumbers(int length)
         {
@@ -85,7 +87,7 @@ namespace BMIS
                 _SqlCommand.ExecuteNonQuery();
             }
 
-            string[] additionalTables = { "tblUser", "tblOfficial", "tblResident", "tblChairmanship", "tblPosition", "tblBlotter", "tblPayment", "tblPurok", "tblVaccine", "tblDocument" };
+            string[] additionalTables = { "tblUser", "tblOfficial", "tblResident", "tblChairmanship", "tblPosition", "tblBlotter", "tblPayment", "tblPurok", "tblVaccine", "tblDocument", "viewVaccine" };
 
             foreach (var tableName in additionalTables)
             {
@@ -110,24 +112,24 @@ namespace BMIS
                 return @"
                     USE bmis;
                     CREATE TABLE tblUser (
-                        id INT PRIMARY KEY IDENTITY(1,1),
-                        name VARCHAR(50) NOT NULL,
+                        id       INT PRIMARY KEY IDENTITY(1,1),
+                        name     VARCHAR(50) NOT NULL,
                         username VARCHAR(50) NOT NULL,
                         password VARCHAR(50) NOT NULL,
-                        role VARCHAR(50) NOT NULL,
-                        pic NVARCHAR(255) NOT NULL);
+                        role     VARCHAR(50) NOT NULL,
+                        pic      NVARCHAR(255) NOT NULL);
                         ";
 
                 case "tblOfficial":
                 return @"
                     USE bmis;
                     CREATE TABLE tblOfficial (
-                        id INT PRIMARY KEY IDENTITY(1,1),
-                        name VARCHAR(50) NOT NULL,
-                        position VARCHAR(50) NOT NULL,
-                        username VARCHAR(50) NOT NULL,
-                        password VARCHAR(50) NOT NULL,
-                        idPic NVARCHAR(255) NOT NULL,
+                        id            INT PRIMARY KEY IDENTITY(1,1),
+                        name          VARCHAR(50) NOT NULL,
+                        position      VARCHAR(50) NOT NULL,
+                        username      VARCHAR(50) NOT NULL,
+                        password      VARCHAR(50) NOT NULL,
+                        idPic         NVARCHAR(255) NOT NULL,
                         accountStatus VARCHAR(50) NOT NULL);
                         ";
 
@@ -135,110 +137,134 @@ namespace BMIS
                 return @"
                     USE bmis;
                     CREATE TABLE tblResident (
-                        nid INT PRIMARY KEY IDENTITY(1,1),
-                        lname VARCHAR(50) NOT NULL,
-                        fname VARCHAR(50) NOT NULL,
-                        mname VARCHAR(50) NOT NULL,
-                        alias VARCHAR(50) NOT NULL,
-                        bdate DATE NOT NULL,
-                        bplace VARCHAR(50) NOT NULL,
-                        age INT NOT NULL,
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        nid         VARCHAR(50) NOT NULL,
+                        lname       VARCHAR(50) NOT NULL,
+                        fname       VARCHAR(50) NOT NULL,
+                        mname       VARCHAR(50) NOT NULL,
+                        alias       VARCHAR(50) NOT NULL,
+                        bdate       DATE NOT NULL,
+                        bplace      VARCHAR(50) NOT NULL,
+                        age         INT NOT NULL,
                         civilstatus VARCHAR(50) NOT NULL,
-                        gender VARCHAR(50) NOT NULL,
-                        religion VARCHAR(50) NOT NULL,
-                        email VARCHAR(50) NOT NULL,
-                        contact VARCHAR(20) NOT NULL,
-                        voters VARCHAR(20) NOT NULL,
-                        precint VARCHAR(20) NOT NULL,
-                        purok VARCHAR(50) NOT NULL,
+                        gender      VARCHAR(50) NOT NULL,
+                        religion    VARCHAR(50) NOT NULL,
+                        email       VARCHAR(50) NOT NULL,
+                        contact     VARCHAR(20) NOT NULL,
+                        voters      VARCHAR(20) NOT NULL,
+                        precint     VARCHAR(20) NOT NULL,
+                        purok       VARCHAR(50) NOT NULL,
                         educational VARCHAR(50) NOT NULL,
-                        occupation VARCHAR(50) NOT NULL,
-                        address NVARCHAR(255) NOT NULL,
-                        category VARCHAR(50) NOT NULL,
-                        house VARCHAR(50) NOT NULL,
-                        head VARCHAR(50) NOT NULL,
-                        disability VARCHAR(50) NOT NULL,
-                        status VARCHAR(50) NOT NULL,
-                        pic NVARCHAR(255) NOT NULL);
+                        occupation  VARCHAR(50) NOT NULL,
+                        address     NVARCHAR(255) NOT NULL,
+                        category    VARCHAR(50) NOT NULL,
+                        house       VARCHAR(50) NOT NULL,
+                        head        VARCHAR(50) NOT NULL,
+                        disability  VARCHAR(50) NOT NULL,
+                        status      VARCHAR(50) NOT NULL,
+                        pic         VARBINARY(MAX) NOT NULL);
                         ";
 
                 case "tblChairmanship":
                 return @"
                     USE bmis;
                     CREATE TABLE tblChairmanship (
-                        role VARCHAR(50) NOT NULL,
-                        status VARCHAR(50) NOT NULL);
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        role        VARCHAR(50) NOT NULL,
+                        status      VARCHAR(50) NOT NULL);
                         ";
 
                 case "tblPosition":
                 return @"
                     USE bmis;
                     CREATE TABLE tblPosition (
-                        position VARCHAR(50) NOT NULL,
-                        status VARCHAR(50) NOT NULL);
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        position    VARCHAR(50) NOT NULL,
+                        status      VARCHAR(50) NOT NULL);
                         ";
 
                 case "tblBlotter":
                 return @"
                     USE bmis;
                     CREATE TABLE tblBlotter (
-                        fileno INT PRIMARY KEY IDENTITY(1,1),
-                        barangay VARCHAR(50) NOT NULL,
-                        purok VARCHAR(50) NOT NULL,
-                        incident VARCHAR(255) NOT NULL,
-                        place VARCHAR(255) NOT NULL,
-                        idate DATE NOT NULL,
-                        itime TIME NOT NULL,
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        fileno      VARCHAR(100) NOT NULL,
+                        barangay    VARCHAR(50) NOT NULL,
+                        purok       VARCHAR(50) NOT NULL,
+                        incident    VARCHAR(255) NOT NULL,
+                        place       VARCHAR(255) NOT NULL,
+                        idate       DATE NOT NULL,
+                        itime       VARCHAR(50) NOT NULL,
                         complainant VARCHAR(100) NOT NULL,
-                        witness1 VARCHAR(100) NOT NULL,
-                        witness2 VARCHAR(100) NOT NULL,
-                        narrative TEXT NOT NULL);
+                        witness1    VARCHAR(100) NOT NULL,
+                        witness2    VARCHAR(100) NOT NULL,
+                        narrative   TEXT NOT NULL,
+                        status      VARCHAR(50) DEFAULT 'Unsettled' NOT NULL);
                         ";
 
                 case "tblPayment":
                 return @"
                     USE bmis;
                     CREATE TABLE tblPayment (
-                        refno INT PRIMARY KEY IDENTITY(1,1),
-                        name VARCHAR(100) NOT NULL,
-                        type VARCHAR(50) NOT NULL,
-                        amount DECIMAL(18, 2) NOT NULL,
-                        sdate DATE NOT NULL,
-                        username VARCHAR(50) NOT NULL);
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        refno       VARCHAR(100) NOT NULL,
+                        name        VARCHAR(100) NOT NULL,
+                        type        VARCHAR(50) NOT NULL,
+                        amount      DECIMAL(18, 2) NOT NULL,
+                        sdate       DATE NOT NULL,
+                        status      VARCHAR(50) DEFAULT 'Pending' NOT NULL,
+                        username    VARCHAR(50) NOT NULL);
                         ";
 
                 case "tblPurok":
                 return @"
                     USE bmis;
                     CREATE TABLE tblPurok (
-                        purok VARCHAR(50) NOT NULL PRIMARY KEY,
-                        chairman VARCHAR(100) NOT NULL);
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        purok       VARCHAR(50) NOT NULL,
+                        chairman    VARCHAR(100) NOT NULL);
                         ";
 
                 case "tblVaccine":
                 return @"
                     USE bmis;
                     CREATE TABLE tblVaccine (
-                        rid INT PRIMARY KEY IDENTITY(1,1),
-                        vaccine VARCHAR(50) NOT NULL,
-                        status VARCHAR(50) NOT NULL);
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        rid         INT NOT NULL,
+                        vaccine     VARCHAR(50) NOT NULL,
+                        status      VARCHAR(50) NOT NULL);
                         ";
 
                 case "tblDocument":
                 return @"
                     USE bmis;
                     CREATE TABLE tblDocument (
-                        refno INT PRIMARY KEY IDENTITY(1,1),
-                        type VARCHAR(50) NOT NULL,
-                        details1 VARCHAR(50) NOT NULL,
-                        details2 VARCHAR(50) NOT NULL,
-                        details3 VARCHAR(50) NOT NULL,
-                        details4 VARCHAR(50) NOT NULL,
-                        details5 VARCHAR(50) NOT NULL,
-                        details6 VARCHAR(50) NOT NULL,
-                        idate DATE NOT NULL,
-                        [user] VARCHAR(50) NOT NULL);
+                        id          INT PRIMARY KEY IDENTITY(1,1),
+                        refno       VARCHAR(50) NOT NULL,
+                        type        VARCHAR(50) NOT NULL,
+                        details1    VARCHAR(50) NULL,
+                        details2    VARCHAR(50) NULL,
+                        details3    VARCHAR(50) NULL,
+                        details4    VARCHAR(50) NULL,
+                        details5    VARCHAR(50) NULL,
+                        details6    VARCHAR(50) NULL,
+                        idate       DATE NOT NULL,
+                        [user]      VARCHAR(50) NOT NULL);
                         ";
+
+                case "viewVaccine":
+                return @"
+                    CREATE VIEW viewVaccine 
+                    AS SELECT  
+                        resident.id,
+                        resident.lname, 
+                        resident.fname, 
+                        resident.mname,  
+                        ISNULL(vaccine.vaccine,'') vaccine,
+                        ISNULL(vaccine.status, 'NOT YET VACCINATED') status 
+                    FROM tblResident resident 
+                    LEFT JOIN tblVaccine vaccine 
+                        ON resident.id = vaccine.id";
 
                 default:
                 return string.Empty;

@@ -21,13 +21,12 @@ namespace BMIS
         int counter = 0;
         public string[] imagePaths;
         public bool slideshowRunning = true;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
 
         [Obsolete]
         public frmSecurity()
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             ImagesSlideShow();
         }
 

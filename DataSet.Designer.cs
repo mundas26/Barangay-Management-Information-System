@@ -58,27 +58,27 @@ namespace BMIS {
             }
             string strSchema = ((string)(info.GetValue("XmlSchema", typeof(string))));
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
-                global::System.Data.DataSet ds = new global::System.Data.DataSet();
-                ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["tblBlotter"] != null)) {
-                    base.Tables.Add(new tblBlotterDataTable(ds.Tables["tblBlotter"]));
+                global::System.Data.DataSet dataSet = new global::System.Data.DataSet();
+                dataSet.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
+                if ((dataSet.Tables["tblBlotter"] != null)) {
+                    base.Tables.Add(new tblBlotterDataTable(dataSet.Tables["tblBlotter"]));
                 }
-                if ((ds.Tables["tblBusiness"] != null)) {
-                    base.Tables.Add(new tblBusinessDataTable(ds.Tables["tblBusiness"]));
+                if ((dataSet.Tables["tblBusiness"] != null)) {
+                    base.Tables.Add(new tblBusinessDataTable(dataSet.Tables["tblBusiness"]));
                 }
-                if ((ds.Tables["tblClearance"] != null)) {
-                    base.Tables.Add(new tblClearanceDataTable(ds.Tables["tblClearance"]));
+                if ((dataSet.Tables["tblClearance"] != null)) {
+                    base.Tables.Add(new tblClearanceDataTable(dataSet.Tables["tblClearance"]));
                 }
-                if ((ds.Tables["tblBuildingPermit"] != null)) {
-                    base.Tables.Add(new tblBuildingPermitDataTable(ds.Tables["tblBuildingPermit"]));
+                if ((dataSet.Tables["tblBuildingPermit"] != null)) {
+                    base.Tables.Add(new tblBuildingPermitDataTable(dataSet.Tables["tblBuildingPermit"]));
                 }
-                this.DataSetName = ds.DataSetName;
-                this.Prefix = ds.Prefix;
-                this.Namespace = ds.Namespace;
-                this.Locale = ds.Locale;
-                this.CaseSensitive = ds.CaseSensitive;
-                this.EnforceConstraints = ds.EnforceConstraints;
-                this.Merge(ds, false, global::System.Data.MissingSchemaAction.Add);
+                this.DataSetName = dataSet.DataSetName;
+                this.Prefix = dataSet.Prefix;
+                this.Namespace = dataSet.Namespace;
+                this.Locale = dataSet.Locale;
+                this.CaseSensitive = dataSet.CaseSensitive;
+                this.EnforceConstraints = dataSet.EnforceConstraints;
+                this.Merge(dataSet, false, global::System.Data.MissingSchemaAction.Add);
                 this.InitVars();
             }
             else {
@@ -195,27 +195,27 @@ namespace BMIS {
         protected override void ReadXmlSerializable(global::System.Xml.XmlReader reader) {
             if ((this.DetermineSchemaSerializationMode(reader) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 this.Reset();
-                global::System.Data.DataSet ds = new global::System.Data.DataSet();
-                ds.ReadXml(reader);
-                if ((ds.Tables["tblBlotter"] != null)) {
-                    base.Tables.Add(new tblBlotterDataTable(ds.Tables["tblBlotter"]));
+                global::System.Data.DataSet dataSet = new global::System.Data.DataSet();
+                dataSet.ReadXml(reader);
+                if ((dataSet.Tables["tblBlotter"] != null)) {
+                    base.Tables.Add(new tblBlotterDataTable(dataSet.Tables["tblBlotter"]));
                 }
-                if ((ds.Tables["tblBusiness"] != null)) {
-                    base.Tables.Add(new tblBusinessDataTable(ds.Tables["tblBusiness"]));
+                if ((dataSet.Tables["tblBusiness"] != null)) {
+                    base.Tables.Add(new tblBusinessDataTable(dataSet.Tables["tblBusiness"]));
                 }
-                if ((ds.Tables["tblClearance"] != null)) {
-                    base.Tables.Add(new tblClearanceDataTable(ds.Tables["tblClearance"]));
+                if ((dataSet.Tables["tblClearance"] != null)) {
+                    base.Tables.Add(new tblClearanceDataTable(dataSet.Tables["tblClearance"]));
                 }
-                if ((ds.Tables["tblBuildingPermit"] != null)) {
-                    base.Tables.Add(new tblBuildingPermitDataTable(ds.Tables["tblBuildingPermit"]));
+                if ((dataSet.Tables["tblBuildingPermit"] != null)) {
+                    base.Tables.Add(new tblBuildingPermitDataTable(dataSet.Tables["tblBuildingPermit"]));
                 }
-                this.DataSetName = ds.DataSetName;
-                this.Prefix = ds.Prefix;
-                this.Namespace = ds.Namespace;
-                this.Locale = ds.Locale;
-                this.CaseSensitive = ds.CaseSensitive;
-                this.EnforceConstraints = ds.EnforceConstraints;
-                this.Merge(ds, false, global::System.Data.MissingSchemaAction.Add);
+                this.DataSetName = dataSet.DataSetName;
+                this.Prefix = dataSet.Prefix;
+                this.Namespace = dataSet.Namespace;
+                this.Locale = dataSet.Locale;
+                this.CaseSensitive = dataSet.CaseSensitive;
+                this.EnforceConstraints = dataSet.EnforceConstraints;
+                this.Merge(dataSet, false, global::System.Data.MissingSchemaAction.Add);
                 this.InitVars();
             }
             else {
@@ -321,14 +321,14 @@ namespace BMIS {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            DataSet ds = new DataSet();
+            DataSet dataSet = new DataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
-            any.Namespace = ds.Namespace;
+            any.Namespace = dataSet.Namespace;
             sequence.Items.Add(any);
             type.Particle = sequence;
-            global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+            global::System.Xml.Schema.XmlSchema dsSchema = dataSet.GetSchemaSerializable();
             if (xs.Contains(dsSchema.TargetNamespace)) {
                 global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
                 global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
@@ -759,7 +759,7 @@ namespace BMIS {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet ds = new DataSet();
+                DataSet dataSet = new DataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -773,14 +773,14 @@ namespace BMIS {
                 sequence.Items.Add(any2);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
+                attribute1.FixedValue = dataSet.Namespace;
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "tblBlotterDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                global::System.Xml.Schema.XmlSchema dsSchema = dataSet.GetSchemaSerializable();
                 if (xs.Contains(dsSchema.TargetNamespace)) {
                     global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
                     global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
@@ -1022,7 +1022,7 @@ namespace BMIS {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet ds = new DataSet();
+                DataSet dataSet = new DataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -1036,14 +1036,14 @@ namespace BMIS {
                 sequence.Items.Add(any2);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
+                attribute1.FixedValue = dataSet.Namespace;
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "tblBusinessDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                global::System.Xml.Schema.XmlSchema dsSchema = dataSet.GetSchemaSerializable();
                 if (xs.Contains(dsSchema.TargetNamespace)) {
                     global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
                     global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
@@ -1315,7 +1315,7 @@ namespace BMIS {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet ds = new DataSet();
+                DataSet dataSet = new DataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -1329,14 +1329,14 @@ namespace BMIS {
                 sequence.Items.Add(any2);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
+                attribute1.FixedValue = dataSet.Namespace;
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "tblClearanceDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                global::System.Xml.Schema.XmlSchema dsSchema = dataSet.GetSchemaSerializable();
                 if (xs.Contains(dsSchema.TargetNamespace)) {
                     global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
                     global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
@@ -1593,7 +1593,7 @@ namespace BMIS {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet ds = new DataSet();
+                DataSet dataSet = new DataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -1607,14 +1607,14 @@ namespace BMIS {
                 sequence.Items.Add(any2);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
+                attribute1.FixedValue = dataSet.Namespace;
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "tblBuildingPermitDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                global::System.Xml.Schema.XmlSchema dsSchema = dataSet.GetSchemaSerializable();
                 if (xs.Contains(dsSchema.TargetNamespace)) {
                     global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
                     global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
+using System.IO;
+using System.Reflection;
 
 namespace BMIS
 {
@@ -23,16 +25,16 @@ namespace BMIS
         public string _BC;
         public string _Name;
         public string _Purpose;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
         public frmPrintAllReports()
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
         }
         public void GetKapitan()
         {
             _sqlConnection.Open();
-            _sqlCommand = new SqlCommand("Select *from tblOfficial where position like 'KAPITAN'", _sqlConnection);
+            _sqlCommand = new SqlCommand("SELECT *FROM tblOfficial WHERE position LIKE 'KAPITAN'", _sqlConnection);
             _sqlDataReader = _sqlCommand.ExecuteReader();
             _sqlDataReader.Read();
             if (_sqlDataReader.HasRows)
@@ -47,23 +49,24 @@ namespace BMIS
             try
             {
                 GetKapitan();
-                ReportDataSource rds;
-                reportViewer1.LocalReport.ReportPath = @"C:\Projects\BARANGAY MANAGEMENT AND INFORMATION SYSTEM\rptBlotter.rdlc";
+                ReportDataSource reportDataSource;
+                //reportViewer1.LocalReport.ReportPath = ".\\rptBlotter.rdlc";
+                reportViewer1.LocalReport.ReportPath = ".\\Report1.rdlc";
                 reportViewer1.LocalReport.DataSources.Clear();
 
-                DataSet ds = new DataSet();
-                SqlDataAdapter da = new SqlDataAdapter();
+                DataSet dataSet = new DataSet();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
                 _sqlConnection.Open();
-                da.SelectCommand = new SqlCommand(sql, _sqlConnection);
-                da.Fill(ds.Tables["tblBlotter"]);
+                dataAdapter.SelectCommand = new SqlCommand(sql, _sqlConnection);
+                dataAdapter.Fill(dataSet.Tables["tblBlotter"]);
 
-                ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
-                reportViewer1.LocalReport.SetParameters(pKapitan);
+                //ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
+                //reportViewer1.LocalReport.SetParameters(pKapitan);
 
-                rds = new ReportDataSource("DataSetForBlotter", ds.Tables["tblBlotter"]);
-                reportViewer1.LocalReport.DataSources.Add(rds);
-                reportViewer1.SetDisplayMode(Microsoft.Reporting.WinForms.DisplayMode.PrintLayout);
+                reportDataSource = new ReportDataSource("DataSetForBlotter", dataSet.Tables["tblBlotter"]);
+                reportViewer1.LocalReport.DataSources.Add(reportDataSource);
+                reportViewer1.SetDisplayMode(DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
                 _sqlConnection.Close();
@@ -79,22 +82,22 @@ namespace BMIS
             try
             {
                 GetKapitan();
-                ReportDataSource rds;
-                reportViewer1.LocalReport.ReportPath = @"C:\Projects\BARANGAY MANAGEMENT AND INFORMATION SYSTEM\rptBusiness.rdlc";
+                ReportDataSource reportDataSource;
+                reportViewer1.LocalReport.ReportPath = ".\\rptBusiness.rdlc";
                 reportViewer1.LocalReport.DataSources.Clear();
 
-                DataSet ds = new DataSet();
-                SqlDataAdapter da = new SqlDataAdapter();
+                DataSet dataSet = new DataSet();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
                 _sqlConnection.Open();
-                da.SelectCommand = new SqlCommand(sql, _sqlConnection);
-                da.Fill(ds.Tables["tblBusiness"]);
+                dataAdapter.SelectCommand = new SqlCommand(sql, _sqlConnection);
+                dataAdapter.Fill(dataSet.Tables["tblBusiness"]);
 
                 ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
                 reportViewer1.LocalReport.SetParameters(pKapitan);
 
-                rds = new ReportDataSource("DataSetForBusiness", ds.Tables["tblBusiness"]);
-                reportViewer1.LocalReport.DataSources.Add(rds);
+                reportDataSource = new ReportDataSource("DataSetForBusiness", dataSet.Tables["tblBusiness"]);
+                reportViewer1.LocalReport.DataSources.Add(reportDataSource);
                 reportViewer1.SetDisplayMode(Microsoft.Reporting.WinForms.DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
@@ -111,16 +114,16 @@ namespace BMIS
             try
             {
                 GetKapitan();
-                ReportDataSource rds;
-                reportViewer1.LocalReport.ReportPath = @"C:\Projects\BARANGAY MANAGEMENT AND INFORMATION SYSTEM\rptClearance.rdlc";
+                ReportDataSource reportDataSource;
+                reportViewer1.LocalReport.ReportPath = ".\\rptClearance.rdlc";
                 reportViewer1.LocalReport.DataSources.Clear();
 
-                DataSet ds = new DataSet();
-                SqlDataAdapter da = new SqlDataAdapter();
+                DataSet dataSet = new DataSet();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
                 _sqlConnection.Open();
-                da.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", _sqlConnection);
-                da.Fill(ds.Tables["tblClearance"]);
+                dataAdapter.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", _sqlConnection);
+                dataAdapter.Fill(dataSet.Tables["tblClearance"]);
                 
                 ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
                 ReportParameter pDay = new ReportParameter("pDay", vars.formattedDay);
@@ -140,8 +143,8 @@ namespace BMIS
                 reportViewer1.LocalReport.SetParameters(pPurpose);
                 reportViewer1.LocalReport.SetParameters(pBC);
 
-                rds = new ReportDataSource("DataSetForClearance", ds.Tables["tblClearance"]);
-                reportViewer1.LocalReport.DataSources.Add(rds);
+                reportDataSource = new ReportDataSource("DataSetForClearance", dataSet.Tables["tblClearance"]);
+                reportViewer1.LocalReport.DataSources.Add(reportDataSource);
                 reportViewer1.SetDisplayMode(Microsoft.Reporting.WinForms.DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
@@ -158,16 +161,16 @@ namespace BMIS
             try
             {
                 GetKapitan();
-                ReportDataSource rds;
-                reportViewer1.LocalReport.ReportPath = @"C:\Projects\BARANGAY MANAGEMENT AND INFORMATION SYSTEM\rptBuildingPermit.rdlc";
+                ReportDataSource reportDataSource;
+                reportViewer1.LocalReport.ReportPath = ".\\rptBuildingPermit.rdlc";
                 reportViewer1.LocalReport.DataSources.Clear();
 
-                DataSet ds = new DataSet();
-                SqlDataAdapter da = new SqlDataAdapter();
+                DataSet dataSet = new DataSet();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
                 _sqlConnection.Open();
-                da.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", _sqlConnection);
-                da.Fill(ds.Tables["tblBuildingPermit"]);
+                dataAdapter.SelectCommand = new SqlCommand("Select *from tblDocument where refno = '" + _refno + "'", _sqlConnection);
+                dataAdapter.Fill(dataSet.Tables["tblBuildingPermit"]);
 
                 ReportParameter pKapitan = new ReportParameter("pKapitan", _captain);
                 ReportParameter pDay = new ReportParameter("pDay", vars.formattedDay);
@@ -185,8 +188,8 @@ namespace BMIS
                 reportViewer1.LocalReport.SetParameters(pPurpose);
                 reportViewer1.LocalReport.SetParameters(pBC);
 
-                rds = new ReportDataSource("DataSetForBuildingPermit", ds.Tables["tblBuildingPermit"]);
-                reportViewer1.LocalReport.DataSources.Add(rds);
+                reportDataSource = new ReportDataSource("DataSetForBuildingPermit", dataSet.Tables["tblBuildingPermit"]);
+                reportViewer1.LocalReport.DataSources.Add(reportDataSource);
                 reportViewer1.SetDisplayMode(DisplayMode.PrintLayout);
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 100;
@@ -197,6 +200,12 @@ namespace BMIS
                 _sqlConnection.Close();
                 MessageBox.Show(ex.Message, vars._title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void frmPrintAllReports_Load(object sender, EventArgs e)
+        {
+
+            this.reportViewer1.RefreshReport();
         }
     }
 }

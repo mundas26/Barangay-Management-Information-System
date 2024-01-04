@@ -17,11 +17,11 @@ namespace BMIS
         SqlCommand _sqlCommand;
         frmMaintenance f;
         public string _purok;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
         public frmPurok(frmMaintenance f)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f = f;
         }
 

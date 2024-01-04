@@ -17,11 +17,11 @@ namespace BMIS
         SqlCommand _sqlCommand;
         SqlDataReader _sqlDataReader;
         frmDocument f;
-        public string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+        
         public frmPrintBusiness(frmDocument f)
         {
             InitializeComponent();
-            _sqlConnection = new SqlConnection(DbString);
+            _sqlConnection = new SqlConnection(vars.DbString);
             this.f = f;
         }
 

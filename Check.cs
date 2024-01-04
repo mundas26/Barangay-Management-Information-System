@@ -12,13 +12,13 @@ namespace BMIS
     {
         public static SqlConnection _sqlConnection;
         public static SqlCommand _sqlCommand;
-        public static string DbString = @"Data Source = .; Initial Catalog = bmis; Integrated Security = True";
+       
         public static bool checkDuplicate(string sql)
         {
             bool IsUserExisted = false;
             try
             {
-                _sqlConnection = new SqlConnection(DbString);
+                _sqlConnection = new SqlConnection(vars.DbString);
                 _sqlConnection.Open();
                 _sqlCommand = new SqlCommand(sql, _sqlConnection);
                 int count = (int)_sqlCommand.ExecuteScalar();
