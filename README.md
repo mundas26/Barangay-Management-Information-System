@@ -16,15 +16,15 @@ BMIS is a comprehensive Barangay Management System designed to streamline and au
 
 1. Clone the repository: `git clone https://github.com/mundas26/Barangay-Management-Information-System.git`
 2. Navigate to the project directory: `cd Barangay-Management-Information-System`
-3. Install dependencies: `npm install` (or `yarn install` if you're using Yarn)
+3. Open the C# desktop application project using your preferred IDE (e.g., Visual Studio).
 4. Set up the database and update configuration files accordingly.
-5. Run the application: `npm start` (or `yarn start`)
+5. Build and run the application.
 
 ## Configuration
 
-- Update database configuration in `config/database.js`.
-- Set up environment variables for sensitive information.
-- 
+- Update database configuration in your C# application where database connections are defined.
+- Set up environment variables or app settings for sensitive information.
+
 ## Default Credentials
 
 To access the system initially, use the following default credentials:
@@ -32,9 +32,11 @@ To access the system initially, use the following default credentials:
 - **Username:** admin
 - **Password:** admin123
 
+Please change the password immediately after the first login for security reasons.
+
 ## Usage
 
-1. Access the BMIS dashboard through your preferred web browser.
+1. Access the BMIS dashboard through your desktop application.
 2. Log in using the provided credentials or create a new account.
 3. Explore the various modules and functionalities of the system.
 4. Contribute to the development by reporting issues or submitting pull requests.
@@ -59,5 +61,3 @@ For inquiries or support, please contact the project maintainers:
 - Your Name
   - Email: junielmundas26@gmail.com
   - LinkedIn: https://linkedin.com/in/mundas26
-
-Feel free to customize the README to better suit your project's details and structure.
