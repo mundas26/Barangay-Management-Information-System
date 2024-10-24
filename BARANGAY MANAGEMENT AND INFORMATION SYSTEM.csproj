@@ -190,83 +190,83 @@
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="dbconstring.cs" />
-    <Compile Include="frmAddChairmanship.cs">
+    <Compile Include="Chairmanship.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddChairmanship.Designer.cs">
-      <DependentUpon>frmAddChairmanship.cs</DependentUpon>
+    <Compile Include="Chairmanship.Designer.cs">
+      <DependentUpon>Chairmanship.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddPosition.cs">
+    <Compile Include="Position.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddPosition.Designer.cs">
-      <DependentUpon>frmAddPosition.cs</DependentUpon>
+    <Compile Include="Position.Designer.cs">
+      <DependentUpon>Position.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmBlotter.cs">
+    <Compile Include="Blotter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBlotter.Designer.cs">
-      <DependentUpon>frmBlotter.cs</DependentUpon>
+    <Compile Include="Blotter.Designer.cs">
+      <DependentUpon>Blotter.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmDocument.cs">
+    <Compile Include="Document.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDocument.Designer.cs">
-      <DependentUpon>frmDocument.cs</DependentUpon>
+    <Compile Include="Document.Designer.cs">
+      <DependentUpon>Document.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmHousehold.cs">
+    <Compile Include="Household.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmHousehold.Designer.cs">
-      <DependentUpon>frmHousehold.cs</DependentUpon>
+    <Compile Include="Household.Designer.cs">
+      <DependentUpon>Household.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmIssue.cs">
+    <Compile Include="Issue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmIssue.Designer.cs">
-      <DependentUpon>frmIssue.cs</DependentUpon>
+    <Compile Include="Issue.Designer.cs">
+      <DependentUpon>Issue.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLoading.cs">
+    <Compile Include="Loading.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLoading.Designer.cs">
-      <DependentUpon>frmLoading.cs</DependentUpon>
+    <Compile Include="Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPrintAllReports.cs">
+    <Compile Include="PrintAllReports.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPrintAllReports.Designer.cs">
-      <DependentUpon>frmPrintAllReports.cs</DependentUpon>
+    <Compile Include="PrintAllReports.Designer.cs">
+      <DependentUpon>PrintAllReports.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSecurity.cs">
+    <Compile Include="Security.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSecurity.Designer.cs">
-      <DependentUpon>frmSecurity.cs</DependentUpon>
+    <Compile Include="Security.Designer.cs">
+      <DependentUpon>Security.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMaintenance.cs">
+    <Compile Include="Maintenance.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMaintenance.Designer.cs">
-      <DependentUpon>frmMaintenance.cs</DependentUpon>
+    <Compile Include="Maintenance.Designer.cs">
+      <DependentUpon>Maintenance.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmOfficial.cs">
+    <Compile Include="Official.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmOfficial.Designer.cs">
-      <DependentUpon>frmOfficial.cs</DependentUpon>
+    <Compile Include="Official.Designer.cs">
+      <DependentUpon>Official.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPayment.cs">
+    <Compile Include="Payment.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPayment.Designer.cs">
-      <DependentUpon>frmPayment.cs</DependentUpon>
+    <Compile Include="Payment.Designer.cs">
+      <DependentUpon>Payment.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPaymentList.cs">
+    <Compile Include="PaymentList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPaymentList.Designer.cs">
-      <DependentUpon>frmPaymentList.cs</DependentUpon>
+    <Compile Include="PaymentList.Designer.cs">
+      <DependentUpon>PaymentList.cs</DependentUpon>
     </Compile>
     <Compile Include="Documents\frmPrintBusiness.cs">
       <SubType>Form</SubType>
@@ -286,35 +286,35 @@
     <Compile Include="Documents\frmPrintBuildingPermit.Designer.cs">
       <DependentUpon>frmPrintBuildingPermit.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPurok.cs">
+    <Compile Include="Purok.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPurok.Designer.cs">
-      <DependentUpon>frmPurok.cs</DependentUpon>
+    <Compile Include="Purok.Designer.cs">
+      <DependentUpon>Purok.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmResidentInformation.cs">
+    <Compile Include="ResidentInformation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmResidentInformation.Designer.cs">
-      <DependentUpon>frmResidentInformation.cs</DependentUpon>
+    <Compile Include="ResidentInformation.Designer.cs">
+      <DependentUpon>ResidentInformation.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmResidentList.cs">
+    <Compile Include="ResidentList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmResidentList.Designer.cs">
-      <DependentUpon>frmResidentList.cs</DependentUpon>
+    <Compile Include="ResidentList.Designer.cs">
+      <DependentUpon>ResidentList.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmVaccination.cs">
+    <Compile Include="Vaccination.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmVaccination.Designer.cs">
-      <DependentUpon>frmVaccination.cs</DependentUpon>
+    <Compile Include="Vaccination.Designer.cs">
+      <DependentUpon>Vaccination.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmViewhousehold.cs">
+    <Compile Include="Viewhousehold.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmViewhousehold.Designer.cs">
-      <DependentUpon>frmViewhousehold.cs</DependentUpon>
+    <Compile Include="Viewhousehold.Designer.cs">
+      <DependentUpon>Viewhousehold.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -328,11 +328,11 @@
     <Compile Include="MainBrgy.Designer.cs">
       <DependentUpon>MainBrgy.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAccount.cs">
+    <Compile Include="Account.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAccount.Designer.cs">
-      <DependentUpon>frmAccount.cs</DependentUpon>
+    <Compile Include="Account.Designer.cs">
+      <DependentUpon>Account.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -344,28 +344,28 @@
     <EmbeddedResource Include="Documents\frmPrintBuildingPermit.resx">
       <DependentUpon>frmPrintBuildingPermit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddChairmanship.resx">
-      <DependentUpon>frmAddChairmanship.cs</DependentUpon>
+    <EmbeddedResource Include="Chairmanship.resx">
+      <DependentUpon>Chairmanship.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddPosition.resx">
-      <DependentUpon>frmAddPosition.cs</DependentUpon>
+    <EmbeddedResource Include="Position.resx">
+      <DependentUpon>Position.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLoading.resx">
-      <DependentUpon>frmLoading.cs</DependentUpon>
+    <EmbeddedResource Include="Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPrintAllReports.resx">
-      <DependentUpon>frmPrintAllReports.cs</DependentUpon>
+    <EmbeddedResource Include="PrintAllReports.resx">
+      <DependentUpon>PrintAllReports.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSecurity.resx">
-      <DependentUpon>frmSecurity.cs</DependentUpon>
+    <EmbeddedResource Include="Security.resx">
+      <DependentUpon>Security.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainBrgy.resx">
       <DependentUpon>MainBrgy.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAccount.resx">
-      <DependentUpon>frmAccount.cs</DependentUpon>
+    <EmbeddedResource Include="Account.resx">
+      <DependentUpon>Account.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -374,33 +374,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report1.rdlc" />
     <EmbeddedResource Include="rptBuildingPermit.rdlc" />
-    <EmbeddedResource Include="frmBlotter.resx">
-      <DependentUpon>frmBlotter.cs</DependentUpon>
+    <EmbeddedResource Include="Blotter.resx">
+      <DependentUpon>Blotter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDocument.resx">
-      <DependentUpon>frmDocument.cs</DependentUpon>
+    <EmbeddedResource Include="Document.resx">
+      <DependentUpon>Document.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmHousehold.resx">
-      <DependentUpon>frmHousehold.cs</DependentUpon>
+    <EmbeddedResource Include="Household.resx">
+      <DependentUpon>Household.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmIssue.resx">
-      <DependentUpon>frmIssue.cs</DependentUpon>
+    <EmbeddedResource Include="Issue.resx">
+      <DependentUpon>Issue.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMaintenance.resx">
-      <DependentUpon>frmMaintenance.cs</DependentUpon>
+    <EmbeddedResource Include="Maintenance.resx">
+      <DependentUpon>Maintenance.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmOfficial.resx">
-      <DependentUpon>frmOfficial.cs</DependentUpon>
+    <EmbeddedResource Include="Official.resx">
+      <DependentUpon>Official.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPayment.resx">
-      <DependentUpon>frmPayment.cs</DependentUpon>
+    <EmbeddedResource Include="Payment.resx">
+      <DependentUpon>Payment.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPaymentList.resx">
-      <DependentUpon>frmPaymentList.cs</DependentUpon>
+    <EmbeddedResource Include="PaymentList.resx">
+      <DependentUpon>PaymentList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Documents\frmPrintBusiness.resx">
@@ -409,21 +409,21 @@
     <EmbeddedResource Include="Documents\frmPrintClearance.resx">
       <DependentUpon>frmPrintClearance.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPurok.resx">
-      <DependentUpon>frmPurok.cs</DependentUpon>
+    <EmbeddedResource Include="Purok.resx">
+      <DependentUpon>Purok.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmResidentInformation.resx">
-      <DependentUpon>frmResidentInformation.cs</DependentUpon>
+    <EmbeddedResource Include="ResidentInformation.resx">
+      <DependentUpon>ResidentInformation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmResidentList.resx">
-      <DependentUpon>frmResidentList.cs</DependentUpon>
+    <EmbeddedResource Include="ResidentList.resx">
+      <DependentUpon>ResidentList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmVaccination.resx">
-      <DependentUpon>frmVaccination.cs</DependentUpon>
+    <EmbeddedResource Include="Vaccination.resx">
+      <DependentUpon>Vaccination.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmViewhousehold.resx">
-      <DependentUpon>frmViewhousehold.cs</DependentUpon>
+    <EmbeddedResource Include="Viewhousehold.resx">
+      <DependentUpon>Viewhousehold.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
